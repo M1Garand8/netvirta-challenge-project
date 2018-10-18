@@ -148,8 +148,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="EncryptedMatrix.h" />
+    <ClInclude Include="IntParse.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IntParse.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="EncryptedMatrix.cpp" />
   </ItemGroup>

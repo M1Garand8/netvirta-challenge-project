@@ -1,34 +1,37 @@
+#include "IntParse.h"
 #include "EncryptedMatrix.h"
 #include <iostream>
 #include <sstream>
 
 int main(int argc, char *argv[])
 {
-	if (argc != 3)
+
+	if (argc != 4)
 	{
-		std::cout << "Format: Matrix Generator.exe <row> <column>\n";
+		std::cout << "Format: Matrix Generator.exe <row> <column> <filename>\n";
 
 		return 0;
 	}
 
-	std::stringstream row_str(argv[1]), col_str(argv[2]);
+	IntParse intParse;
+	std::string filename;
 	int row, col;
-
-	row_str >> row;
-	if (row_str.fail())
+	
+	if (intParse.TryParse(argv[1], row) == false)
 	{
 		std::cout << "Invalid row! Please enter a number!\n";
 
 		return 0;
 	}
 
-	col_str >> col;
-	if (col_str.fail())
+	if (intParse.TryParse(argv[2], col) == false)
 	{
 		std::cout << "Invalid column! Please enter a number!\n";
 
 		return 0;
 	}
+
+	filename = argv[3];
 
 	if (row <= 0)
 	{
@@ -47,6 +50,7 @@ int main(int argc, char *argv[])
 	EncryptedMatrix test_matrix{ row, col };
 	test_matrix.GenerateMatrix();
 	test_matrix.Print();
+	test_matrix.PrintToFile(filename);
 
 	return 0;
 }

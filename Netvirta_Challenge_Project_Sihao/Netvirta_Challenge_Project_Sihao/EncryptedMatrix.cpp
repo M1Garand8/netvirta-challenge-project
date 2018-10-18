@@ -6,15 +6,13 @@
 
 EncryptedMatrix::EncryptedMatrix(int row, int col) : _row(row), _col(col)	{ }
 
-EncryptedMatrix::EncryptedMatrix(int row, int col, std::string data) : _row(row), _col(col)
+EncryptedMatrix::EncryptedMatrix(int row, int col, const std::string filename) : _row(row), _col(col)
 {
-
+	
 }
 
 void EncryptedMatrix::GenerateMatrix()
 {
-	// To do: Change matrix to hold string
-	// Add encryption
 	std::srand(time(nullptr));
 
 	for (int i = 0; i < _row; ++i)
@@ -32,30 +30,46 @@ void EncryptedMatrix::GenerateMatrix()
 	}
 }
 
+// For testing
 void EncryptedMatrix::Print()
 {
-	// To do: Add decryption
 	for (int i = 0; i < _row; ++i)
 	{
-		std::string currRow = "";
-
-		for (int j = 0; j < _col; ++j)
-		{
-			currRow += std::to_string(_matrix[i][j]);
-
-			if (j < (_col - 1))
-			{
-				currRow += " ";
-			}
-		}
+		std::string currRow = GetRowString(i, _matrix[i]);
 
 		if (i < (_row - 1))
 		{
-			currRow += "\n";
+			std::cout << EncryptDecrypt(currRow) << "\n";
 		}
-
-		std::cout << EncryptDecrypt(currRow);
+		else
+		{
+			std::cout << EncryptDecrypt(currRow);
+		}
 	}
+}
+
+void EncryptedMatrix::PrintToFile(const std::string filename)
+{
+	std::string path = "\\Matrices\\" + filename + ".dat";
+	std::ofstream file;
+
+	file.open(path, std::ios::out | std::ios::app);
+
+	for (int i = 0; i < _row; ++i)
+	{
+		std::string currRow = GetRowString(i, _matrix[i]);
+
+		if (i < (_row - 1))
+		{
+			file << EncryptDecrypt(currRow) << "\n";
+		}
+		else
+		{
+			file << EncryptDecrypt(currRow);
+		}
+	}
+
+	file.close();
 }
 
 EncryptedMatrix::~EncryptedMatrix()
@@ -63,17 +77,28 @@ EncryptedMatrix::~EncryptedMatrix()
 	// Pop columns
 	for (int i = 0; i < _row; ++i)
 	{
-		for (int j = 0; j < _col; ++j)
-		{
-			_matrix[i].pop_back();
-		}
+		_matrix[i].clear();
 	}
 
 	// Pop rows
-	for (int i = 0; i < _row; ++i)
+	_matrix.clear();
+}
+
+std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData)
+{
+	std::string currRow = "";
+
+	for (int j = 0; j < _col; ++j)
 	{
-		_matrix.pop_back();
+		currRow += std::to_string(rowData[j]);
+
+		if (j < (_col - 1))
+		{
+			currRow += " ";
+		}
 	}
+
+	return currRow;
 }
 
 std::string EncryptedMatrix::EncryptDecrypt(std::string toEncrypt)
