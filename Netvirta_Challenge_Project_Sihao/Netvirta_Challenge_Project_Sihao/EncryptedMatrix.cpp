@@ -1,4 +1,5 @@
 #include "EncryptedMatrix.h"
+#include "StringUtils.h"
 #include <time.h>
 #include <cstdlib>
 #include <iostream>
@@ -6,9 +7,51 @@
 
 EncryptedMatrix::EncryptedMatrix(int row, int col) : _row(row), _col(col)	{ }
 
-EncryptedMatrix::EncryptedMatrix(int row, int col, const std::string filename) : _row(row), _col(col)
+EncryptedMatrix::EncryptedMatrix(const std::string filename)
 {
-	
+	std::string path = "\\Matrices\\" + filename + ".dat";
+	std::ifstream file;
+
+	file.open(path, std::ios::in);
+
+	if (file.is_open())
+	{
+		// First draft, to be improved
+		int i = 0;
+		std::string currLine;
+		while (std::getline(file, currLine))
+		{
+			int realSize = currLine.size() - 2;
+			if (currLine.find("\n", realSize) != std::string::npos)
+			{
+				// Remove nextline token
+				currLine = currLine.substr(0, realSize);
+			}
+
+			currLine = EncryptDecrypt(currLine);
+
+			std::vector<int> newRow;
+			_matrix.push_back(newRow);
+
+			std::vector<std::string> colList = StringUtils::Split(currLine, ' ');
+			for (unsigned c = 0; c < colList.size(); ++c)
+			{
+				std::string colStr = colList[c];
+				int val = 0;
+				if (StringUtils::TryParse(colStr, val) == true)
+				{
+					_matrix[i].push_back(val);
+				}
+			}
+
+			++i;
+		}
+
+		_row = _matrix.size();
+		_col = _matrix[0].size();
+	}
+
+	file.close();
 }
 
 void EncryptedMatrix::GenerateMatrix()
@@ -23,7 +66,6 @@ void EncryptedMatrix::GenerateMatrix()
 		for (int j = 0; j < _col; ++j)
 		{
 			int newNum = std::rand();
-			std::srand(newNum);
 
 			_matrix[i].push_back(newNum);
 		}
@@ -50,26 +92,27 @@ void EncryptedMatrix::Print()
 
 void EncryptedMatrix::PrintToFile(const std::string filename)
 {
-	std::string path = "\\Matrices\\" + filename + ".dat";
+	std::string path = filename + ".dat";
 	std::ofstream file;
 
-	file.open(path, std::ios::out | std::ios::app);
+	file.open(path, std::ios::out | std::ios::trunc);
 
-	for (int i = 0; i < _row; ++i)
+	// File exists
+	if (file.is_open())
 	{
-		std::string currRow = GetRowString(i, _matrix[i]);
+		WriteToFile(file);
 
-		if (i < (_row - 1))
-		{
-			file << EncryptDecrypt(currRow) << "\n";
-		}
-		else
-		{
-			file << EncryptDecrypt(currRow);
-		}
+		file.close();
 	}
+	// File doesn't exist
+	else
+	{
+		std::ofstream newFile{ path, std::ios::out | std::ios::trunc };
 
-	file.close();
+		WriteToFile(newFile);
+
+		newFile.close();
+	}
 }
 
 EncryptedMatrix::~EncryptedMatrix()
@@ -82,6 +125,26 @@ EncryptedMatrix::~EncryptedMatrix()
 
 	// Pop rows
 	_matrix.clear();
+}
+
+bool EncryptedMatrix::CheckColumnEven()
+{
+	// Degenerate matrix, shouldn't happen
+	if (_matrix.empty())
+	{
+		return false;
+	}
+
+	for (unsigned i = 0; i < _matrix.size(); ++i)
+	{
+		int currSize = _matrix[i].size();
+		if (currSize != _col)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData)
@@ -101,12 +164,29 @@ std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData)
 	return currRow;
 }
 
+void EncryptedMatrix::WriteToFile(std::ofstream& fs)
+{
+	for (int i = 0; i < _row; ++i)
+	{
+		std::string currRow = GetRowString(i, _matrix[i]);
+
+		if (i < (_row - 1))
+		{
+			fs << EncryptDecrypt(currRow) << "\n";
+		}
+		else
+		{
+			fs << EncryptDecrypt(currRow);
+		}
+	}
+}
+
 std::string EncryptedMatrix::EncryptDecrypt(std::string toEncrypt)
 {
 	char key = 'K'; //Any char will work
 	std::string output = toEncrypt;
 
-	for (int i = 0; i < toEncrypt.size(); i++)
+	for (unsigned i = 0; i < toEncrypt.size(); i++)
 	{
 		output[i] = toEncrypt[i] ^ key;
 	}

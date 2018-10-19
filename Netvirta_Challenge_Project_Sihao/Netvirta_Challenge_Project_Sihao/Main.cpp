@@ -1,4 +1,4 @@
-#include "IntParse.h"
+#include "StringUtils.h"
 #include "EncryptedMatrix.h"
 #include <iostream>
 #include <sstream>
@@ -13,18 +13,17 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	IntParse intParse;
 	std::string filename;
 	int row, col;
 	
-	if (intParse.TryParse(argv[1], row) == false)
+	if (StringUtils::TryParse(argv[1], row) == false)
 	{
 		std::cout << "Invalid row! Please enter a number!\n";
 
 		return 0;
 	}
 
-	if (intParse.TryParse(argv[2], col) == false)
+	if (StringUtils::TryParse(argv[2], col) == false)
 	{
 		std::cout << "Invalid column! Please enter a number!\n";
 

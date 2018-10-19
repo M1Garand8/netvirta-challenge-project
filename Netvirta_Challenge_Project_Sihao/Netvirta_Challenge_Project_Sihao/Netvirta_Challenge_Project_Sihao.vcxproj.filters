@@ -8,25 +8,25 @@
     <Filter Include="Matrix">
       <UniqueIdentifier>{0e00f7dc-c2a6-4338-8a56-43c62f32aece}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IntParse">
+    <Filter Include="StringUtils">
       <UniqueIdentifier>{c751579f-3f2d-4dac-b006-518deaf5081a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="StringUtils.cpp">
+      <Filter>StringUtils</Filter>
+    </ClCompile>
     <ClCompile Include="EncryptedMatrix.cpp">
       <Filter>Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="IntParse.cpp">
-      <Filter>IntParse</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="StringUtils.h">
+      <Filter>StringUtils</Filter>
+    </ClInclude>
     <ClInclude Include="EncryptedMatrix.h">
       <Filter>Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="IntParse.h">
-      <Filter>IntParse</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

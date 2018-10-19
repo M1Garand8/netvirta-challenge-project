@@ -147,12 +147,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.cpp" />
-    <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\IntParse.cpp" />
+    <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\StringUtils.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MatrixSearch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.h" />
-    <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\IntParse.h" />
+    <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\StringUtils.h" />
+    <ClInclude Include="MatrixSearch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

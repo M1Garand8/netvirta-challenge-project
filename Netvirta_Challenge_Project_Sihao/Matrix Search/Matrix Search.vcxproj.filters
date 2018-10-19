@@ -5,28 +5,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="EncryptedMatrix">
+    <Filter Include="StringUtils">
+      <UniqueIdentifier>{5a27ed1b-28c4-41e4-915b-6c69cbf64b49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix">
       <UniqueIdentifier>{7d85dcea-61a4-4ae5-b366-2d8c28558887}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IntParse">
-      <UniqueIdentifier>{5a27ed1b-28c4-41e4-915b-6c69cbf64b49}</UniqueIdentifier>
+    <Filter Include="MatrixSearch">
+      <UniqueIdentifier>{0f22458b-195e-4223-a0ae-9c1b180a5aa4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.cpp">
-      <Filter>EncryptedMatrix</Filter>
+      <Filter>Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\IntParse.cpp">
-      <Filter>IntParse</Filter>
+    <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\StringUtils.cpp">
+      <Filter>StringUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixSearch.cpp">
+      <Filter>MatrixSearch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.h">
-      <Filter>EncryptedMatrix</Filter>
+      <Filter>Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\IntParse.h">
-      <Filter>IntParse</Filter>
+    <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\StringUtils.h">
+      <Filter>StringUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixSearch.h">
+      <Filter>MatrixSearch</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
