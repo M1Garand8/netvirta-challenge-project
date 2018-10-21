@@ -7,9 +7,9 @@
 
 EncryptedMatrix::EncryptedMatrix(int row, int col) : _row(row), _col(col)	{ }
 
-EncryptedMatrix::EncryptedMatrix(const std::string filename)
+EncryptedMatrix::EncryptedMatrix(const std::string path)
 {
-	std::string path = "\\Matrices\\" + filename + ".dat";
+	//std::string path = filename + ".dat";
 	std::ifstream file;
 
 	file.open(path, std::ios::in);
@@ -52,6 +52,31 @@ EncryptedMatrix::EncryptedMatrix(const std::string filename)
 	}
 
 	file.close();
+}
+
+const int EncryptedMatrix::Row() const
+{
+	return _row;
+}
+
+const int EncryptedMatrix::Col() const
+{
+	return _col;
+}
+
+const std::vector<std::vector<int> > EncryptedMatrix::GetMatrixData() const
+{
+	return _matrix;
+}
+
+const std::vector<int> EncryptedMatrix::GetRowData(const int row) const
+{
+	return _matrix[row];
+}
+
+const std::string EncryptedMatrix::GetRowString(const int row) const
+{
+	return GetRowString(row, _matrix[row]);
 }
 
 void EncryptedMatrix::GenerateMatrix()
@@ -127,6 +152,7 @@ EncryptedMatrix::~EncryptedMatrix()
 	_matrix.clear();
 }
 
+// Private functions
 bool EncryptedMatrix::CheckColumnEven()
 {
 	// Degenerate matrix, shouldn't happen
@@ -147,7 +173,7 @@ bool EncryptedMatrix::CheckColumnEven()
 	return true;
 }
 
-std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData)
+std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData) const
 {
 	std::string currRow = "";
 

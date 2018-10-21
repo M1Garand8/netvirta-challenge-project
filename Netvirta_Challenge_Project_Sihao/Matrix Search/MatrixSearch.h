@@ -1,11 +1,13 @@
+#include "..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.h"
+
 class MatrixSearch
 {
 public:
-	MatrixSearch();
-	void SearchSequence();	// To be changed
-	void SearchUnordered();	// To be changed
-	void SearchBestMAtch();	// To be changed
+	static void SearchSequence(const EncryptedMatrix mat, const std::string inputSeq);	// To be changed
+	static void SearchBestMatch(const EncryptedMatrix mat, const std::vector<int> inputSeq);	// To be changed
+	static void SearchUnordered(const EncryptedMatrix mat, const std::vector<int> inputSeq);	// To be changed
 
 private:
-
+	static bool CheckTrue(const std::vector<bool> foundList);
+	MatrixSearch() { }
 };
