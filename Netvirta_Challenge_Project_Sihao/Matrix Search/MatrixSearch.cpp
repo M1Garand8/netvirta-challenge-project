@@ -45,8 +45,6 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix mat, const std::vector<
 				seqFound.push_back(false);
 			}
 		}
-
-
 	}
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
@@ -62,7 +60,7 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix mat, const std::vector<
 
 bool MatrixSearch::CheckTrue(const std::vector<bool> foundList)
 {
-	for (unsigned i = 0; i < foundList.size(); ++j)
+	for (unsigned i = 0; i < foundList.size(); ++i)
 	{
 		if (foundList[i] == false)
 		{

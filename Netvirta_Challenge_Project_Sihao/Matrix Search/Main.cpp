@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 		const std::string inputSeqStr = StringUtils::StrParseSearchSequence(argc, argv);
 		if (searchfunc == "searchSequence")
 		{
-			MatrixSearch::SearchSequence(mat, inputSeq);
+			MatrixSearch::SearchSequence(mat, inputSeqStr);
 		}
 		else if (searchfunc == "searchUnordered")
 		{
