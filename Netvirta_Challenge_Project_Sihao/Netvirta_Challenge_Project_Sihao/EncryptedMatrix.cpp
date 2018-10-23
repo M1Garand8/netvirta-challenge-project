@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-EncryptedMatrix::EncryptedMatrix(int row, int col) : _row(row), _col(col)	{ }
+EncryptedMatrix::EncryptedMatrix(unsigned row, unsigned col) : _row(row), _col(col)	{ }
 
 EncryptedMatrix::EncryptedMatrix(const std::string path)
 {
@@ -54,12 +54,12 @@ EncryptedMatrix::EncryptedMatrix(const std::string path)
 	file.close();
 }
 
-const int EncryptedMatrix::Row() const
+const unsigned EncryptedMatrix::Row() const
 {
 	return _row;
 }
 
-const int EncryptedMatrix::Col() const
+const unsigned EncryptedMatrix::Col() const
 {
 	return _col;
 }
@@ -69,12 +69,12 @@ const std::vector<std::vector<int> > EncryptedMatrix::GetMatrixData() const
 	return _matrix;
 }
 
-const std::vector<int> EncryptedMatrix::GetRowData(const int row) const
+const std::vector<int> EncryptedMatrix::GetRowData(const unsigned row) const
 {
 	return _matrix[row];
 }
 
-const std::string EncryptedMatrix::GetRowString(const int row) const
+const std::string EncryptedMatrix::GetRowString(const unsigned row) const
 {
 	return GetRowString(row, _matrix[row]);
 }
@@ -83,12 +83,12 @@ void EncryptedMatrix::GenerateMatrix()
 {
 	std::srand(time(nullptr));
 
-	for (int i = 0; i < _row; ++i)
+	for (unsigned i = 0; i < _row; ++i)
 	{
 		std::vector<int> newRow;
 		_matrix.push_back(newRow);
 
-		for (int j = 0; j < _col; ++j)
+		for (unsigned j = 0; j < _col; ++j)
 		{
 			int newNum = std::rand();
 
@@ -100,7 +100,7 @@ void EncryptedMatrix::GenerateMatrix()
 // For testing
 void EncryptedMatrix::Print()
 {
-	for (int i = 0; i < _row; ++i)
+	for (unsigned i = 0; i < _row; ++i)
 	{
 		std::string currRow = GetRowString(i, _matrix[i]);
 
@@ -143,7 +143,7 @@ void EncryptedMatrix::PrintToFile(const std::string filename)
 EncryptedMatrix::~EncryptedMatrix()
 {
 	// Pop columns
-	for (int i = 0; i < _row; ++i)
+	for (unsigned i = 0; i < _row; ++i)
 	{
 		_matrix[i].clear();
 	}
@@ -177,7 +177,7 @@ std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData) 
 {
 	std::string currRow = "";
 
-	for (int j = 0; j < _col; ++j)
+	for (unsigned j = 0; j < _col; ++j)
 	{
 		currRow += std::to_string(rowData[j]);
 
@@ -192,7 +192,7 @@ std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData) 
 
 void EncryptedMatrix::WriteToFile(std::ofstream& fs)
 {
-	for (int i = 0; i < _row; ++i)
+	for (unsigned i = 0; i < _row; ++i)
 	{
 		std::string currRow = GetRowString(i, _matrix[i]);
 

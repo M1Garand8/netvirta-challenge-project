@@ -9,6 +9,14 @@ bool StringUtils::TryParse(const std::string str, int& result)
 	return !inputStr.fail();
 }
 
+bool StringUtils::TryParse(const std::string str, unsigned& result)
+{
+	std::stringstream inputStr{ str };
+	inputStr >> result;
+
+	return !inputStr.fail();
+}
+
 std::vector<std::string> StringUtils::Split(const std::string str, char delimiter)
 {
 	std::vector<std::string> tokens;
@@ -63,6 +71,11 @@ const std::string StringUtils::StrParseSearchSequence(int argc, char *argv[])
 // Given a list of integers, string up the list using given separator
 const std::string StringUtils::StringList(const std::vector<int> list, const std::string separator)
 {
+	if (list.empty() == true)
+	{
+		return "none.";
+	}
+
 	std::string strungList;
 
 	for (unsigned i = 0; i < list.size(); ++i)

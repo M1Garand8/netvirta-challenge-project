@@ -5,6 +5,7 @@ class StringUtils
 {
 public:
 	static bool TryParse(const std::string str, int& result);
+	static bool TryParse(const std::string str, unsigned& result);
 	static std::vector<std::string> Split(const std::string str, char delimiter);
 	static const std::vector<int> IntParseSearchSequence(int argc, char *argv[]);
 	static const std::string StrParseSearchSequence(int argc, char *argv[]);

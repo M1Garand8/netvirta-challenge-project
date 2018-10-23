@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	}
 
 	std::string filename;
-	int row, col;
+	unsigned row, col;
 	
 	if (StringUtils::TryParse(argv[1], row) == false)
 	{
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	EncryptedMatrix test_matrix{ row, col };
+	EncryptedMatrix test_matrix{ unsigned(row), unsigned(col) };
 	test_matrix.GenerateMatrix();
 	test_matrix.Print();
 	test_matrix.PrintToFile(filename);
