@@ -51,9 +51,15 @@ int main(int argc, char *argv[])
 	}
 
 	int isNum = 0;
-	if (isUseSearchFile == false && StringUtils::TryParse(argv[1], isNum) == false)
+	if (isTestRun == false && isUseSearchFile == false && StringUtils::TryParse(argv[1], isNum) == false)
 	{
 		std::string filename{ argv[1] };
+		if (StringUtils::CheckFileName(filename, ".dat") == false)
+		{
+			std::cout << "Matrix data file input is not a .dat file!" << std::endl;
+
+			return 0;
+		}
 		std::string searchfunc{ argv[2] };
 
 		const EncryptedMatrix mat(filename);
@@ -62,10 +68,23 @@ int main(int argc, char *argv[])
 
 		MatrixSearch::SearchMatrix(searchfunc, mat, inputSeqStr, inputSeq);
 	}
-	else
+	else if (isTestRun == false && isUseSearchFile == true && StringUtils::TryParse(argv[1], isNum) == false)
 	{
 		std::string filename{ argv[1] };
+		if (StringUtils::CheckFileName(filename, ".dat") == false)
+		{
+			std::cout << "Matrix data file input is not a .dat file!" << std::endl;
+
+			return 0;
+		}
 		std::string searchFuncsPath{ argv[2] };
+		if (StringUtils::CheckFileName(searchFuncsPath, ".txt") == false)
+		{
+			std::cout << "Search function file input is not a text file!" << std::endl;
+
+			return 0;
+		}
+
 		std::ifstream file;
 
 		file.open(searchFuncsPath, std::ios::in);
@@ -87,6 +106,68 @@ int main(int argc, char *argv[])
 		}
 
 		file.close();
+	}
+	else if (isTestRun == true && isUseSearchFile == false && StringUtils::TryParse(argv[1], isNum) == false)
+	{
+		std::string searchSeq = "searchSequence";
+		std::string searchUnOrd = "searchUnordered";
+		std::string searchBM = "searchBestMatch";
+
+		// Test #1: Correctness test, Square Matrix (Row == Col)
+		std::cout << "Test #1: Correctness test, Square Matrix (Row == Col)" << std::endl;
+		std::string testEvenDataPath{ "even_test_10_10.dat" };
+		std::string evenSearchSeqStr{ "1 54 23 4 17 78" }; // To be changed
+		std::vector<std::string> evenSearchStrList = StringUtils::Split(evenSearchSeqStr, ' ');
+
+
+		// Test #2: Correctness test, Non-Square Matrix (Row != Col)
+		std::cout << "Test #2: Correctness test, Non-Square Matrix (Row != Col)" << std::endl;
+		std::string testUnevenDataPath{ "even_test_10_50.dat" };
+		std::string unevenSearchSeqStr{ "1 54 23 4 17 78" }; // To be changed
+		std::vector<std::string> unSearchStrList = StringUtils::Split(unevenSearchSeqStr, ' ');
+
+
+		// Test #3: Performance test (1000 x 1000 matrix)
+		std::cout << "Test #3: Performance test (1000 x 1000 matrix)" << std::endl;
+		std::string perfTestDataPath1{ "perf_test_100_100.dat" };
+		std::string perf1000_1000SearchSeqStr{ "1 54 23 4 17 78" }; // To be changed
+		std::vector<std::string> searchStrList = StringUtils::Split(perf1000_1000SearchSeqStr, ' ');
+
+		const EncryptedMatrix mat_1000_1000(perfTestDataPath1);
+		/*const std::vector<int> inputSeq = StringUtils::IntParseSearchSequence(searchStrList, false);
+		const std::string inputSeqStr = StringUtils::StrParseSearchSequence(searchStrList, false);
+		
+		MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, inputSeqStr, inputSeq);*/
+
+		// Test #4: Performance test (10000 x 10000 matrix)
+		std::cout << "Test #4: Performance test (10000 x 10000 matrix)" << std::endl;
+		std::string perfTestDataPath2{ "perf_test_10000_10000.dat" };
+		std::string perf10000_10000SearchSeqStr{ "1 54 23 4 17 78" }; // To be changed
+		std::vector<std::string> searchStrList = StringUtils::Split(perf10000_10000SearchSeqStr, ' ');
+
+		const EncryptedMatrix mat_10000_10000(perfTestDataPath2);
+		/*const std::vector<int> inputSeq = StringUtils::IntParseSearchSequence(searchStrList, false);
+		const std::string inputSeqStr = StringUtils::StrParseSearchSequence(searchStrList, false);
+
+		MatrixSearch::SearchMatrix(searchSeq, mat_10000_10000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10000_10000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchBM, mat_10000_10000, inputSeqStr, inputSeq);*/
+
+		// Test #5: Performance test (1000000 x 1000000 matrix)
+		std::cout << "Test #5: Performance test (1000000 x 1000000 matrix)" << std::endl;
+		std::string perfTestDataPath2{ "perf_test_1000000_1000000.dat" };
+		std::string perf1000000_1000000SearchSeqStr{ "1 54 23 4 17 78" }; // To be changed
+		std::vector<std::string> searchStrList = StringUtils::Split(perf1000000_1000000SearchSeqStr, ' ');
+
+		const EncryptedMatrix mat_1000000_1000000(perfTestDataPath2);
+		/*const std::vector<int> inputSeq = StringUtils::IntParseSearchSequence(searchStrList, false);
+		const std::string inputSeqStr = StringUtils::StrParseSearchSequence(searchStrList, false);
+
+		MatrixSearch::SearchMatrix(searchSeq, mat_1000000_1000000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_1000000_1000000, inputSeqStr, inputSeq);
+		MatrixSearch::SearchMatrix(searchBM, mat_1000000_1000000, inputSeqStr, inputSeq);*/
 	}
 
 	return 0;

@@ -44,6 +44,10 @@ EncryptedMatrix::EncryptedMatrix(const std::string path)
 
 		_row = _matrix.size() / _col;
 	}
+	else
+	{
+		std::cout << "File " + path + " not found!" << std::endl;
+	}
 
 	file.close();
 

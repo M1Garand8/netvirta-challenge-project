@@ -68,7 +68,7 @@ const std::string StringUtils::StrParseSearchSequence(int argc, char *argv[])
 	return strSeq;
 }
 
-const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::string>& searchFuncSeq)
+const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
 {
 	std::vector<int> strSeq;
 	unsigned seqSize = searchFuncSeq.size();
@@ -78,7 +78,9 @@ const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::stri
 		return strSeq;
 	}
 
-	for (unsigned i = 1; i < seqSize; ++i)
+	unsigned start = hasSearchFunc == true ? 1 : 0;
+
+	for (unsigned i = start; i < seqSize; ++i)
 	{
 		int currInt = 0;
 		if (StringUtils::TryParse(searchFuncSeq[i], currInt) == true)
@@ -90,7 +92,7 @@ const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::stri
 	return strSeq;
 }
 
-const std::string StringUtils::StrParseSearchSequence(std::vector<std::string>& searchFuncSeq)
+const std::string StringUtils::StrParseSearchSequence(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
 {
 	std::string strSeq = "";
 
@@ -101,7 +103,9 @@ const std::string StringUtils::StrParseSearchSequence(std::vector<std::string>& 
 		return strSeq;
 	}
 
-	for (unsigned i = 1; i < seqSize; ++i)
+	unsigned start = hasSearchFunc == true ? 1 : 0;
+
+	for (unsigned i = start; i < seqSize; ++i)
 	{
 		int currInt = 0;
 		if (StringUtils::TryParse(searchFuncSeq[i], currInt) == true)
@@ -139,4 +143,31 @@ const std::string StringUtils::StringList(const std::vector<int>& list, const st
 	}
 
 	return strungList;
+}
+
+bool StringUtils::CheckFileName(const std::string& str, const std::string& fileType)
+{
+	int pos = str.find(fileType);
+
+	// File type not found, either missing or wrong file type
+	if (pos == std::string::npos)
+	{
+		return false;
+	}
+
+	// File name + file type shouldn't be less than the length of file type
+	if (fileType.size() >= str.size())
+	{
+		return false;
+	}
+
+	int realStart = str.size() - fileType.size();
+
+	// Found file type position is not at supposed location, either duplicate file type in the string or in the wrong place
+	if (pos != realStart)
+	{
+		return false;
+	}
+
+	return true;
 }

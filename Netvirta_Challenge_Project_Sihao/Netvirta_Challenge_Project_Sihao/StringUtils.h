@@ -12,9 +12,10 @@ public:
 	static std::vector<std::string> Split(const std::string& str, char delimiter);
 	static const std::vector<int> IntParseSearchSequence(int argc, char *argv[]);
 	static const std::string StrParseSearchSequence(int argc, char *argv[]);
-	static const std::vector<int> IntParseSearchSequence(std::vector<std::string>& searchFuncSeq);
-	static const std::string StrParseSearchSequence(std::vector<std::string>& searchFuncSeq);
+	static const std::vector<int> IntParseSearchSequence(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
+	static const std::string StrParseSearchSequence(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
 	static const std::string StringList(const std::vector<int>& list, const std::string separator);
+	static bool CheckFileName(const std::string& str, const std::string& fileType);
 
 private:
 	StringUtils() { }
