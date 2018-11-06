@@ -20,12 +20,18 @@
     <ClCompile Include="EncryptedMatrix.cpp">
       <Filter>Matrix</Filter>
     </ClCompile>
+    <ClCompile Include="MatrixUtils.cpp">
+      <Filter>Matrix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StringUtils.h">
       <Filter>StringUtils</Filter>
     </ClInclude>
     <ClInclude Include="EncryptedMatrix.h">
+      <Filter>Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixUtils.h">
       <Filter>Matrix</Filter>
     </ClInclude>
   </ItemGroup>

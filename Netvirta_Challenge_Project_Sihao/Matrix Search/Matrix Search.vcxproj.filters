@@ -29,6 +29,9 @@
     <ClCompile Include="SearchResult.cpp">
       <Filter>MatrixSearch</Filter>
     </ClCompile>
+    <ClCompile Include="..\Netvirta_Challenge_Project_Sihao\MatrixUtils.cpp">
+      <Filter>Matrix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.h">
@@ -42,6 +45,9 @@
     </ClInclude>
     <ClInclude Include="SearchResult.h">
       <Filter>MatrixSearch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Netvirta_Challenge_Project_Sihao\MatrixUtils.h">
+      <Filter>Matrix</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

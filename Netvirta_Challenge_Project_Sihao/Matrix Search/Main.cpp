@@ -3,10 +3,12 @@
 #include "MatrixSearch.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
 
 int main(int argc, char *argv[])
 {
 	bool isUseSearchFile = false;
+	bool isTestRun = false;
 	if (argc < 3)
 	{
 		std::cout << "Format: Matrix Search.exe <dat file> <search file> OR Matrix Search.exe <dat file> <search function> <seq 1 ... seq n>\n";
@@ -17,14 +19,23 @@ int main(int argc, char *argv[])
 	{
 		// Check if first and second parameters are numbers
 		int arg1, arg2;
-		if (StringUtils::TryParse(argv[1], arg1) == true || StringUtils::TryParse(argv[1], arg2) == true)
+		if (StringUtils::TryParse(argv[1], arg1) == true || StringUtils::TryParse(argv[2], arg2) == true)
 		{
 			std::cout << "Format: Matrix Search.exe <dat file> <search file> OR Matrix Search.exe <dat file> <search function> <seq 1 ... seq n>\n";
 
 			return 0;
 		}
 
-		isUseSearchFile = true;
+		std::string testSearchFunc{ argv[2] };
+
+		if (testSearchFunc != "MatrixSearchTest")
+		{
+			isUseSearchFile = true;
+		}
+		else
+		{
+			isTestRun = true;
+		}
 	}
 	else if (argc > 3)
 	{
@@ -48,24 +59,34 @@ int main(int argc, char *argv[])
 		const EncryptedMatrix mat(filename);
 		const std::vector<int> inputSeq = StringUtils::IntParseSearchSequence(argc, argv);
 		const std::string inputSeqStr = StringUtils::StrParseSearchSequence(argc, argv);
-		if (searchfunc == "searchSequence")
-		{
-			MatrixSearch::SearchSequence(mat, inputSeqStr);
-		}
-		else if (searchfunc == "searchUnordered")
-		{
-			MatrixSearch::SearchUnordered(mat, inputSeq);
-		}
-		else if (searchfunc == "searchBestMatch")
-		{
-			MatrixSearch::SearchBestMatch(mat, inputSeq);
-		}
-		else
-		{
-			std::cout << "No such search function exist! Valid functions: searchSequence, searchUnordered or searchBestMatch.\n";
 
-			return 0;
+		MatrixSearch::SearchMatrix(searchfunc, mat, inputSeqStr, inputSeq);
+	}
+	else
+	{
+		std::string filename{ argv[1] };
+		std::string searchFuncsPath{ argv[2] };
+		std::ifstream file;
+
+		file.open(searchFuncsPath, std::ios::in);
+
+		if (file.is_open())
+		{
+			std::string currLine;
+			int i = 0;
+			while (std::getline(file, currLine))
+			{
+				std::vector<std::string> searchStrList = StringUtils::Split(currLine, ' ');
+
+				const EncryptedMatrix mat(filename);
+				const std::vector<int> inputSeq = StringUtils::IntParseSearchSequence(searchStrList);
+				const std::string inputSeqStr = StringUtils::StrParseSearchSequence(searchStrList);
+
+				MatrixSearch::SearchMatrix(searchStrList[i], mat, inputSeqStr, inputSeq);
+			}
 		}
+
+		file.close();
 	}
 
 	return 0;

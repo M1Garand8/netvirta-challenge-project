@@ -149,10 +149,12 @@
   <ItemGroup>
     <ClCompile Include="EncryptedMatrix.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MatrixUtils.cpp" />
     <ClCompile Include="StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EncryptedMatrix.h" />
+    <ClInclude Include="MatrixUtils.h" />
     <ClInclude Include="StringUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

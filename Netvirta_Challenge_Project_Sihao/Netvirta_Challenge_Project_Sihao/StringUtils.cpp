@@ -17,7 +17,7 @@ bool StringUtils::TryParse(const std::string str, unsigned& result)
 	return !inputStr.fail();
 }
 
-std::vector<std::string> StringUtils::Split(const std::string str, char delimiter)
+std::vector<std::string> StringUtils::Split(const std::string& str, char delimiter)
 {
 	std::vector<std::string> tokens;
 	std::string token;
@@ -68,8 +68,58 @@ const std::string StringUtils::StrParseSearchSequence(int argc, char *argv[])
 	return strSeq;
 }
 
+const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::string>& searchFuncSeq)
+{
+	std::vector<int> strSeq;
+	unsigned seqSize = searchFuncSeq.size();
+
+	if (seqSize <= 1)
+	{
+		return strSeq;
+	}
+
+	for (unsigned i = 1; i < seqSize; ++i)
+	{
+		int currInt = 0;
+		if (StringUtils::TryParse(searchFuncSeq[i], currInt) == true)
+		{
+			strSeq.push_back(currInt);
+		}
+	}
+
+	return strSeq;
+}
+
+const std::string StringUtils::StrParseSearchSequence(std::vector<std::string>& searchFuncSeq)
+{
+	std::string strSeq = "";
+
+	unsigned seqSize = searchFuncSeq.size();
+
+	if (seqSize <= 1)
+	{
+		return strSeq;
+	}
+
+	for (unsigned i = 1; i < seqSize; ++i)
+	{
+		int currInt = 0;
+		if (StringUtils::TryParse(searchFuncSeq[i], currInt) == true)
+		{
+			strSeq += searchFuncSeq[i];
+		}
+
+		if (i < (seqSize - 1))
+		{
+			strSeq += " ";
+		}
+	}
+
+	return strSeq;
+}
+
 // Given a list of integers, string up the list using given separator
-const std::string StringUtils::StringList(const std::vector<int> list, const std::string separator)
+const std::string StringUtils::StringList(const std::vector<int>& list, const std::string separator)
 {
 	if (list.empty() == true)
 	{

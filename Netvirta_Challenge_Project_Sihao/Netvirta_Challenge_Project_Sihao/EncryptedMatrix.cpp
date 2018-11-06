@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 EncryptedMatrix::EncryptedMatrix(unsigned row, unsigned col) : _row(row), _col(col)	{ }
 
@@ -16,8 +17,6 @@ EncryptedMatrix::EncryptedMatrix(const std::string path)
 
 	if (file.is_open())
 	{
-		// First draft, to be improved
-		int i = 0;
 		std::string currLine;
 		while (std::getline(file, currLine))
 		{
@@ -30,28 +29,32 @@ EncryptedMatrix::EncryptedMatrix(const std::string path)
 
 			currLine = EncryptDecrypt(currLine);
 
-			std::vector<int> newRow;
-			_matrix.push_back(newRow);
-
 			std::vector<std::string> colList = StringUtils::Split(currLine, ' ');
+			_col = colList.size(); // Dangerous if Split does not give consistent col size.
 			for (unsigned c = 0; c < colList.size(); ++c)
 			{
 				std::string colStr = colList[c];
 				int val = 0;
 				if (StringUtils::TryParse(colStr, val) == true)
 				{
-					_matrix[i].push_back(val);
+					_matrix.push_back(val);
 				}
 			}
-
-			++i;
 		}
 
-		_row = _matrix.size();
-		_col = _matrix[0].size();
+		_row = _matrix.size() / _col;
 	}
 
 	file.close();
+
+	// Generate sorted matrix from normal matrix
+	// Sorted by rows
+	for (unsigned i = 0; i < _row; ++i)
+	{
+		std::vector<ElemData> rowData = GenerateSortedRow(i);
+
+		_matrixSorted.insert(_matrixSorted.end(), rowData.begin(), rowData.end());
+	}
 }
 
 const unsigned EncryptedMatrix::Row() const
@@ -64,36 +67,47 @@ const unsigned EncryptedMatrix::Col() const
 	return _col;
 }
 
-const std::vector<std::vector<int> > EncryptedMatrix::GetMatrixData() const
+const std::vector<int> EncryptedMatrix::GetMatrixData() const
 {
 	return _matrix;
 }
 
 const std::vector<int> EncryptedMatrix::GetRowData(const unsigned row) const
 {
-	return _matrix[row];
+	unsigned rowBegin = (row * _col);
+	unsigned rowEnd = rowBegin + _col;
+	std::vector<int> rowData{ _matrix.begin() + rowBegin, _matrix.begin() + rowEnd };
+
+	return rowData;
 }
 
 const std::string EncryptedMatrix::GetRowString(const unsigned row) const
 {
-	return GetRowString(row, _matrix[row]);
+	unsigned rowBegin = (row * _col);
+	unsigned rowEnd = rowBegin + _col;
+	std::vector<int> rowData{ _matrix.begin() + rowBegin, _matrix.begin() + rowEnd };
+	return GetRowString(row, rowData);
 }
 
 void EncryptedMatrix::GenerateMatrix()
 {
 	std::srand(time(nullptr));
 
+	// Generate normal, unsorted matrix
+	for (unsigned i = 0; i < (_row * _col); ++i)
+	{
+		int newNum = (std::rand() % 100) + 1; // Limit number range to 1 - 100
+
+		_matrix.push_back(newNum);
+	}
+
+	// Generate sorted matrix from normal matrix
+	// Sorted by rows
 	for (unsigned i = 0; i < _row; ++i)
 	{
-		std::vector<int> newRow;
-		_matrix.push_back(newRow);
+		std::vector<ElemData> rowData = GenerateSortedRow(i);
 
-		for (unsigned j = 0; j < _col; ++j)
-		{
-			int newNum = std::rand();
-
-			_matrix[i].push_back(newNum);
-		}
+		_matrixSorted.insert(_matrixSorted.end(), rowData.begin(), rowData.end());
 	}
 }
 
@@ -102,7 +116,7 @@ void EncryptedMatrix::Print()
 {
 	for (unsigned i = 0; i < _row; ++i)
 	{
-		std::string currRow = GetRowString(i, _matrix[i]);
+		std::string currRow = GetRowString(i);
 
 		if (i < (_row - 1))
 		{
@@ -142,13 +156,6 @@ void EncryptedMatrix::PrintToFile(const std::string filename)
 
 EncryptedMatrix::~EncryptedMatrix()
 {
-	// Pop columns
-	for (unsigned i = 0; i < _row; ++i)
-	{
-		_matrix[i].clear();
-	}
-
-	// Pop rows
 	_matrix.clear();
 }
 
@@ -161,19 +168,10 @@ bool EncryptedMatrix::CheckColumnEven()
 		return false;
 	}
 
-	for (unsigned i = 0; i < _matrix.size(); ++i)
-	{
-		int currSize = _matrix[i].size();
-		if (currSize != _col)
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return _matrix.size() % _col == 0;
 }
 
-std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int> rowData) const
+std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int>& rowData) const
 {
 	std::string currRow = "";
 
@@ -194,7 +192,7 @@ void EncryptedMatrix::WriteToFile(std::ofstream& fs)
 {
 	for (unsigned i = 0; i < _row; ++i)
 	{
-		std::string currRow = GetRowString(i, _matrix[i]);
+		std::string currRow = GetRowString(i);
 
 		if (i < (_row - 1))
 		{
@@ -218,4 +216,32 @@ std::string EncryptedMatrix::EncryptDecrypt(std::string toEncrypt)
 	}
 
 	return output;
+}
+
+std::vector<ElemData> EncryptedMatrix::GenerateSortedRow(const unsigned row)
+{
+	unsigned rowBegin = (row * _col);
+	unsigned rowEnd = rowBegin + _col;
+
+	std::vector<ElemData> rowData;
+	for (unsigned i = rowBegin; i < rowEnd; ++i)
+	{
+		int pos = 0;
+		// Safe conversion of unsigned to signed int
+		if (i < static_cast<unsigned>(std::numeric_limits<int>::max()))
+		{
+			pos = int(i);
+		}
+		else
+		{
+			pos = -1;
+		}
+		ElemData data{ _matrix[i], pos };
+		rowData.push_back(data);
+	}
+	std::sort(rowData.begin(), rowData.end(), [](const ElemData& data1, const ElemData& data2) {
+		return (data1.Num() < data2.Num()) && (data1.Pos() < data2.Pos());
+	});
+
+	return rowData;
 }
