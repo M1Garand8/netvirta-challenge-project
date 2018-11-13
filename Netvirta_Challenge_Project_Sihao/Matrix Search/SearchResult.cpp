@@ -1,6 +1,8 @@
 #include "SearchResult.h"
+#include "..\Netvirta_Challenge_Project_Sihao\StringUtils.h"
 #include <cmath>
 #include <algorithm>
+#include <string>
 
 SearchResult::SearchResult() { }
 
@@ -35,9 +37,57 @@ void SearchResult::Add(const int num, const int pos)
 	_foundNumsList.push_back(foundNum);
 
 	_foundNumsListSorted.push_back(foundNum);
-	std::sort(_foundNumsListSorted.begin(), _foundNumsListSorted.end(), [](const ElemData& data1, const ElemData& data2) {
-		return data1.Pos() < data2.Pos();
-	});
+	Sort();
+}
+
+void SearchResult::AddSwap(const int num, const int pos)
+{
+	int numPosUnsorted = Find(_foundNumsList, num);
+	int numPosSorted = Find(_foundNumsListSorted, num);
+
+	// Both lists should have the number!
+	if (numPosUnsorted != -1 && numPosSorted != -1)
+	{
+		_foundNumsList[numPosUnsorted].Set(num, pos);
+		_foundNumsListSorted[numPosSorted].Set(num, pos);
+	}
+}
+
+void SearchResult::Swap(const int old_num, const int old_pos, const int new_num, const int new_pos)
+{
+	int oldNumPosUnsorted = Find(_foundNumsList, old_num);
+	int oldNumPosSorted = Find(_foundNumsListSorted, old_num);
+
+	// Both lists should have the number!
+	if (oldNumPosUnsorted != -1 && oldNumPosSorted != -1)
+	{
+		_foundNumsList[oldNumPosUnsorted].Set(new_num, new_pos);
+		_foundNumsListSorted[oldNumPosSorted].Set(new_num, new_pos);
+	}
+}
+
+bool SearchResult::IsCloser(const int num, const int pos)
+{
+	if (Has(num) == true)
+	{
+		int currNumPos = Find(_foundNumsListSorted, num);
+
+		ElemData firstData = _foundNumsListSorted[0];
+		ElemData currData = _foundNumsListSorted[currNumPos];
+
+		int currDataDist = std::abs(firstData.Pos() - currData.Pos());
+		int newDataDist = std::abs(firstData.Pos() - pos);
+
+		return newDataDist < currDataDist;
+	}
+
+	return true;
+}
+
+bool SearchResult::Has(const int num)
+{
+
+	return Find(_foundNumsListSorted, num) != -1;
 }
 
 bool SearchResult::Has(const int num, const int pos)
@@ -55,6 +105,20 @@ bool SearchResult::Has(const int num, const int pos)
 	return false;
 }
 
+int SearchResult::Find(const std::vector<ElemData>& data, const int num)
+{
+	for (unsigned i = 0; i < data.size(); ++i)
+	{
+		ElemData foundData = _foundNumsList[i];
+		if (foundData.Num() == num)
+		{
+			return StringUtils::SafeConvertUnsigned(i);
+		}
+	}
+
+	return -1;
+}
+
 const unsigned SearchResult::Size() const
 {
 	return _foundNumsList.size();
@@ -68,14 +132,18 @@ bool SearchResult::MatchSize(const unsigned size)
 const int SearchResult::MatchSize(const std::vector<int>& inputSeq) const
 {
 	int numsMatched = 0;
+
 	for (unsigned i = 0; i < inputSeq.size(); ++i)
 	{
 		int numToMatch = inputSeq[i];
-		int currNum = _foundNumsList[i].Num();
-
-		if (numToMatch == currNum)
+		for (unsigned j = 0; j < _foundNumsList.size(); ++j)
 		{
-			++numsMatched;
+			int currNum = _foundNumsList[j].Num();
+
+			if (numToMatch == currNum)
+			{
+				++numsMatched;
+			}
 		}
 	}
 
@@ -120,6 +188,13 @@ bool SearchResult::InASequence()
 // Checks if new position to be added is directly after the last found position
 bool SearchResult::InSequence(const int newPos)
 {
+	unsigned seqSize = _foundNumsListSorted.size();
+	// First in sequence, always in "sequence"
+	if (seqSize == 0)
+	{
+		return true;
+	}
+
 	unsigned lastElem = _foundNumsListSorted.size() - 1;
 	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
 	int diff = abs(lastElemPos - newPos);
@@ -127,7 +202,33 @@ bool SearchResult::InSequence(const int newPos)
 	return newPos > lastElemPos && diff == 1;
 }
 
+const std::string SearchResult::PrintSequence()
+{
+	std::string seqStr;
+
+	unsigned seqLength = _foundNumsList.size();
+	for (unsigned i = 0; i < seqLength; ++i)
+	{
+		ElemData data = _foundNumsList[i];
+		seqStr += std::to_string(data.Num());
+
+		if (i < seqLength - 1)
+		{
+			seqStr += " ";
+		}
+	}
+
+	return seqStr;
+}
+
 bool SearchResult::IsSmaller(const ElemData& data1, const ElemData& data2) const
 {
 	return data1.Pos() < data2.Pos();
+}
+
+void SearchResult::Sort()
+{
+	std::sort(_foundNumsListSorted.begin(), _foundNumsListSorted.end(), [](const ElemData& data1, const ElemData& data2) {
+		return data1.Pos() < data2.Pos();
+	});
 }

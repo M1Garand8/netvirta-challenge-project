@@ -6,11 +6,11 @@
 class MatrixSearch
 {
 public:
-	static void SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, const std::string& inputSeqStr, const std::vector<int>&  inputSeq);
+	static void SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, const std::vector<std::string>& inputSeqStrList, const std::string& inputSeqStr, const std::vector<int>&  inputSeq);
 
 private:
-	static void SearchSequence(const EncryptedMatrix& mat, const std::string& inputSeq);
-	static void SearchSequenceOptimized(const EncryptedMatrix& mat, const std::string& inputSeq);
+	static void SearchSequence(const EncryptedMatrix& mat, const std::vector<std::string>& inputSeqStrList, const std::string& inputSeq);
+	static void SearchSequenceOptimized(const EncryptedMatrix& mat, const std::vector<int>& inputSeq);
 	static void SearchUnordered(const EncryptedMatrix& mat, const std::vector<int>&  inputSeq);
 	static void SearchUnorderedOptimized(const EncryptedMatrix& mat, const std::vector<int>&  inputSeq);
 	static void SearchBestMatch(const EncryptedMatrix& mat, const std::vector<int>&  inputSeq);

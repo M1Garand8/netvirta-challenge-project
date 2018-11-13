@@ -3,13 +3,12 @@
 
 #include "MatrixUtils.h"
 #include <vector>
-#include <string>
 
 class EncryptedMatrix
 {
 public:
 	EncryptedMatrix(unsigned row, unsigned col);
-	EncryptedMatrix(const std::string data);
+	EncryptedMatrix(const std::string path, bool encryptDecrypt = true);
 	const unsigned Row() const;
 	const unsigned Col() const;
 	const std::vector<int> GetMatrixData() const;
@@ -17,12 +16,12 @@ public:
 	const std::string GetRowString(const unsigned row) const;
 	void GenerateMatrix();
 	void Print();
-	void PrintToFile(const std::string filename);
+	void PrintToFile(const std::string filename, bool encryptDecrypt = true);
 	~EncryptedMatrix();
 private:
 	bool CheckColumnEven();
 	std::string GetRowString(int rowIdx, std::vector<int>& rowData) const;
-	void WriteToFile(std::ofstream& fs);
+	void WriteToFile(std::ofstream& fs, bool encryptDecrypt = true);
 	std::string EncryptDecrypt(std::string toEncrypt);
 	std::vector<ElemData> GenerateSortedRow(const unsigned row);
 	unsigned _row;

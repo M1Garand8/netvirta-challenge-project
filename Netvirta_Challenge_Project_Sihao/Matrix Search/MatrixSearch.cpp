@@ -4,11 +4,11 @@
 #include <iostream>
 #include <chrono>
 
-void MatrixSearch::SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, const std::string& inputSeqStr, const std::vector<int>&  inputSeq)
+void MatrixSearch::SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, const std::vector<std::string>& inputSeqStrList, const std::string& inputSeqStr, const std::vector<int>&  inputSeq)
 {
 	if (searchFunc == "searchSequence")
 	{
-		MatrixSearch::SearchSequence(mat, inputSeqStr);
+		MatrixSearch::SearchSequence(mat, inputSeqStrList, inputSeqStr);
 	}
 	else if (searchFunc == "searchUnordered")
 	{
@@ -20,25 +20,38 @@ void MatrixSearch::SearchMatrix(std::string& searchFunc, const EncryptedMatrix& 
 	}
 	else
 	{
-		std::cout << "No such search function exist! Valid functions: searchSequence, searchUnordered or searchBestMatch.\n";
+		std::cout << "No such search function exist! Valid functions: searchSequence, searchUnordered or searchBestMatch." << std::endl;
 	}
 }
 
-void MatrixSearch::SearchSequence(const EncryptedMatrix& mat, const std::string& inputSeq)
+void MatrixSearch::SearchSequence(const EncryptedMatrix& mat, const std::vector<std::string>& inputSeqStrList, const std::string& inputSeq)
 {
 	std::vector<int> foundRows;
 
 	auto start = std::chrono::system_clock::now();
-	// Trivial rejection: if matrix columns are shorter than the sequence to search, then
-	// it is impossible to match the sequence
-	if (mat.Col() < inputSeq.size())
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeqStrList.size() == 0)
 	{
 		// To do: Wrap cout string in a function
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 
-		std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-		std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+		std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
+	// Trivial rejection: if matrix columns are shorter than the sequence to search, then
+	// it is impossible to match the sequence
+	if (mat.Col() < inputSeqStrList.size())
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
 
 		return;
 	}
@@ -54,15 +67,28 @@ void MatrixSearch::SearchSequence(const EncryptedMatrix& mat, const std::string&
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+	std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
 }
 
-void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, const std::string& inputSeq)
+void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
 {
 	std::vector<int> foundRows;
 
 	auto start = std::chrono::system_clock::now();
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeq.size() == 0)
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
 	// Trivial rejection: if matrix columns are shorter than the sequence to search, then
 	// it is impossible to match the sequence
 	if (mat.Col() < inputSeq.size())
@@ -71,8 +97,8 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, const std
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 
-		std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-		std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+		std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
 
 		return;
 	}
@@ -88,8 +114,8 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, const std
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+	std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
 }
 
 void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
@@ -97,6 +123,19 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 	std::vector<int> foundRows;
 
 	auto start = std::chrono::system_clock::now();
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeq.size() == 0)
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
 	// Trivial rejection: if matrix columns are shorter than the sequence to search, then
 	// it is impossible to match the sequence
 	if (mat.Col() < inputSeq.size())
@@ -105,8 +144,8 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 
-		std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-		std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+		std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none."  << std::endl;
 
 		return;
 	}
@@ -119,7 +158,7 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 		std::vector<int> rowData = mat.GetRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
-			int currSearchInt = inputSeq[i];
+			int currSearchInt = inputSeq[j];
 			for (unsigned c = 0; c < rowData.size(); ++c)
 			{
 				int currInt = rowData[c];
@@ -128,19 +167,29 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 					res.Add(currSearchInt, c);
 				}
 			}
+
+			int currSize = j + 1;
+			if (res.MatchSize(currSize) == false)
+			{
+				// If size fails to match after searching through the row with a particular number,
+				// then it means that it won't find the full string, therefore can stop further searching
+				break;
+			}
 		}
 
 		// SearchResult size and input size matches, means all numbers have been found
-		if (res.MatchSize(inputSeq.size() && res.InASequence()))
+		if (res.MatchSize(inputSeq.size()) && res.InASequence())
 		{
+			// Comment when not testing
+			//std::cout << "Sequence String found for row " << row << ": " << res.PrintSequence() << std::endl;
 			foundRows.push_back(row);
 		}
 	}
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchUnordered finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+	std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
 }
 
 void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
@@ -148,6 +197,19 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, const st
 	std::vector<int> foundRows;
 
 	auto start = std::chrono::system_clock::now();
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeq.size() == 0)
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
 	// Trivial rejection: if matrix columns are shorter than the sequence to search, then
 	// it is impossible to match the sequence
 	if (mat.Col() < inputSeq.size())
@@ -156,8 +218,8 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, const st
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 
-		std::cout << "SearchSequence finished at: " << elapsed_seconds.count() << "\n";
-		std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+		std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
 
 		return;
 	}
@@ -184,14 +246,15 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, const st
 	//	// SearchResult size and input size matches, means all numbers have been found
 	//	if (res.MatchSize(inputSeq.size() && res.InASequence()))
 	//	{
+	//		std::cout << "Sequence String found for row " << row << ": " << std::endl;
 	//		foundRows.push_back(row);
 	//	}
 	//}
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchUnordered finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << "\n";
+	std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
 }
 
 void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
@@ -199,6 +262,19 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector
 	SearchResult bestRow;
 
 	auto start = std::chrono::system_clock::now();
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeq.size() == 0)
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchBestMatch finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
 	for (unsigned i = 0; i < mat.Row(); ++i)
 	{
 		int row = i + 1;
@@ -208,7 +284,7 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector
 
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
-			int currSearchInt = inputSeq[i];
+			int currSearchInt = inputSeq[j];
 			for (unsigned c = 0; c < rowData.size(); ++c)
 			{
 				int currInt = rowData[c];
@@ -221,14 +297,16 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector
 
 		if (bestRow.MatchSize(inputSeq) < res.MatchSize(inputSeq))
 		{
+			// Comment when not testing
+			//std::cout << "Current best sequence found: " << res.PrintSequence() << std::endl;
 			bestRow = res;
 		}
 	}
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchBestMatch finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row: " << bestRow.Row() << "\n";
+	std::cout << "SearchBestMatch finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row: " << bestRow.Row() << std::endl;
 }
 
 void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
@@ -236,6 +314,19 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, const st
 	SearchResult bestRow;
 
 	auto start = std::chrono::system_clock::now();
+	// Trivial rejection: stop searching immediately if input sequence is empty
+	if (inputSeq.size() == 0)
+	{
+		// To do: Wrap cout string in a function
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> elapsed_seconds = end - start;
+
+		std::cout << "SearchBestMatch finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+		std::cout << "Sequence found in row(s): none." << std::endl;
+
+		return;
+	}
+
 	/*for (unsigned i = 0; i < mat.Row(); ++i)
 	{
 		int row = i + 1;
@@ -264,8 +355,8 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, const st
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
-	std::cout << "SearchBestMatch finished at: " << elapsed_seconds.count() << "\n";
-	std::cout << "Sequence found in row: " << bestRow.Row() << "\n";
+	std::cout << "SearchBestMatch finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
+	std::cout << "Sequence found in row: " << bestRow.Row() << std::endl;
 }
 
 int MatrixSearch::BinarySearch(const std::vector<ElemData>& data, int l, int r, int x)

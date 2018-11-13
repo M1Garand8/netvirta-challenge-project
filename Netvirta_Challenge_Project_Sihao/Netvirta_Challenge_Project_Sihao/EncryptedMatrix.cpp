@@ -2,13 +2,14 @@
 #include "StringUtils.h"
 #include <time.h>
 #include <cstdlib>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 
 EncryptedMatrix::EncryptedMatrix(unsigned row, unsigned col) : _row(row), _col(col)	{ }
 
-EncryptedMatrix::EncryptedMatrix(const std::string path)
+EncryptedMatrix::EncryptedMatrix(const std::string path, bool encryptDecrypt)
 {
 	//std::string path = filename + ".dat";
 	std::ifstream file;
@@ -20,14 +21,17 @@ EncryptedMatrix::EncryptedMatrix(const std::string path)
 		std::string currLine;
 		while (std::getline(file, currLine))
 		{
+			if (encryptDecrypt == true)
+			{
+				currLine = EncryptDecrypt(currLine);
+			}
+
 			int realSize = currLine.size() - 2;
 			if (currLine.find("\n", realSize) != std::string::npos)
 			{
 				// Remove nextline token
 				currLine = currLine.substr(0, realSize);
 			}
-
-			currLine = EncryptDecrypt(currLine);
 
 			std::vector<std::string> colList = StringUtils::Split(currLine, ' ');
 			_col = colList.size(); // Dangerous if Split does not give consistent col size.
@@ -133,7 +137,7 @@ void EncryptedMatrix::Print()
 	}
 }
 
-void EncryptedMatrix::PrintToFile(const std::string filename)
+void EncryptedMatrix::PrintToFile(const std::string filename, bool encryptDecrypt)
 {
 	std::string path = filename + ".dat";
 	std::ofstream file;
@@ -143,7 +147,7 @@ void EncryptedMatrix::PrintToFile(const std::string filename)
 	// File exists
 	if (file.is_open())
 	{
-		WriteToFile(file);
+		WriteToFile(file, encryptDecrypt);
 
 		file.close();
 	}
@@ -152,7 +156,7 @@ void EncryptedMatrix::PrintToFile(const std::string filename)
 	{
 		std::ofstream newFile{ path, std::ios::out | std::ios::trunc };
 
-		WriteToFile(newFile);
+		WriteToFile(newFile, encryptDecrypt);
 
 		newFile.close();
 	}
@@ -192,19 +196,20 @@ std::string EncryptedMatrix::GetRowString(int rowIdx, std::vector<int>& rowData)
 	return currRow;
 }
 
-void EncryptedMatrix::WriteToFile(std::ofstream& fs)
+void EncryptedMatrix::WriteToFile(std::ofstream& fs, bool encryptDecrypt)
 {
 	for (unsigned i = 0; i < _row; ++i)
 	{
-		std::string currRow = GetRowString(i);
+		std::string rowStrRaw{ GetRowString(i) };
+		std::string currRow = encryptDecrypt == true ? EncryptDecrypt(rowStrRaw) : rowStrRaw;
 
 		if (i < (_row - 1))
 		{
-			fs << EncryptDecrypt(currRow) << "\n";
+			fs << currRow << "\n";
 		}
 		else
 		{
-			fs << EncryptDecrypt(currRow);
+			fs << currRow;
 		}
 	}
 }
@@ -232,14 +237,7 @@ std::vector<ElemData> EncryptedMatrix::GenerateSortedRow(const unsigned row)
 	{
 		int pos = 0;
 		// Safe conversion of unsigned to signed int
-		if (i < static_cast<unsigned>(std::numeric_limits<int>::max()))
-		{
-			pos = int(i);
-		}
-		else
-		{
-			pos = -1;
-		}
+		pos = StringUtils::SafeConvertUnsigned(i);
 		ElemData data{ _matrix[i], pos };
 		rowData.push_back(data);
 	}

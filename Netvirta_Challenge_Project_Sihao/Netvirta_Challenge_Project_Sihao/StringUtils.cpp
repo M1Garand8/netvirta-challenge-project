@@ -73,7 +73,7 @@ const std::vector<int> StringUtils::IntParseSearchSequence(std::vector<std::stri
 	std::vector<int> strSeq;
 	unsigned seqSize = searchFuncSeq.size();
 
-	if (seqSize <= 1)
+	if (hasSearchFunc == true && seqSize <= 1)
 	{
 		return strSeq;
 	}
@@ -98,7 +98,7 @@ const std::string StringUtils::StrParseSearchSequence(std::vector<std::string>& 
 
 	unsigned seqSize = searchFuncSeq.size();
 
-	if (seqSize <= 1)
+	if (hasSearchFunc == true && seqSize <= 1)
 	{
 		return strSeq;
 	}
@@ -170,4 +170,26 @@ bool StringUtils::CheckFileName(const std::string& str, const std::string& fileT
 	}
 
 	return true;
+}
+
+int StringUtils::ConvertToMiliseconds(double seconds)
+{
+	return int(seconds * 1000.0);
+}
+
+int StringUtils::ConvertToMicroseconds(double seconds)
+{
+	return int(seconds * 1000000.0);
+}
+
+int StringUtils::SafeConvertUnsigned(const unsigned num, const int returnDefault)
+{
+	if (num < static_cast<unsigned>(std::numeric_limits<int>::max()))
+	{
+		return int(num);
+	}
+	else
+	{
+		return returnDefault;
+	}
 }
