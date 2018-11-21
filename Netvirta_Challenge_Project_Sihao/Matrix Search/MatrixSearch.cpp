@@ -18,6 +18,7 @@ void MatrixSearch::SearchMatrix(std::string& searchFunc, const EncryptedMatrix& 
 	}
 	else if (searchFunc == "searchBestMatch")
 	{
+		//MatrixSearch::SearchBestMatch(mat, inputSeq);
 		MatrixSearch::SearchBestMatchOptimized(mat, inputSeq);
 	}
 	else
@@ -62,7 +63,6 @@ void MatrixSearch::SearchSequence(const EncryptedMatrix& mat, const std::vector<
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<int> rowData = mat.GetRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
@@ -136,7 +136,6 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, const std
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
@@ -245,7 +244,6 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<int> rowData = mat.GetRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
@@ -319,7 +317,6 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, const st
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
@@ -383,7 +380,6 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<int> rowData = mat.GetRowData(i);
 
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
@@ -399,7 +395,7 @@ void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector
 			}
 		}
 
-		if (bestRow.MatchSize(inputSeq) < res.MatchSize(inputSeq))
+		if (bestRow.Size() < res.Size())
 		{
 			// Comment when not testing
 			//std::cout << "Current best sequence found: " << res.PrintSequence() << std::endl;
@@ -435,7 +431,6 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, const st
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.size());
-		std::string rowStr = mat.GetRowString(i);
 		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
 		for (unsigned j = 0; j < inputSeq.size(); ++j)
 		{
@@ -447,22 +442,9 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, const st
 				ElemData num = rowData[numExist];
 				res.Add(num.Num(), num.Pos());
 			}
-			// If one number not found means sequence not in the row
-			else
-			{
-				break;
-			}
-
-			//int currSize = j + 1;
-			//if (res.MatchSize(currSize) == false)
-			//{
-			//	// If size fails to match after searching through the row with a particular number,
-			//	// then it means that it won't find the full string, therefore can stop further searching
-			//	break;
-			//}
 		}
 
-		if (bestRow.MatchSize(inputSeq) < res.MatchSize(inputSeq))
+		if (bestRow.Size() < res.Size())
 		{
 			// Comment when not testing
 			//std::cout << "Current best sequence found: " << res.PrintSequence() << std::endl;

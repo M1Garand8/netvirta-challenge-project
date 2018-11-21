@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 7" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 7" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 7" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 
 		evenSearchSeqStr = "20 42 35 63 28 19";
@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 7" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 7" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 7" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 		
 		evenSearchSeqStr = "41 37 85 33 79 63 8 60 100 17" ;
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 8" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 8" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 8" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 
 		evenSearchSeqStr = "33";
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 1, 2, 3, 8, 9" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 1, 2, 3, 8, 9" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 1" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSearchStrList, evenInputSeqStr, evenInputSeq);
 
 		// Test #2: Correctness test, Non-Square Matrix (Row != Col)
@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 5" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 5" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 5" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 
 		unevenSearchSeqStr = "15 16 99 81 69 39 24 73 62 50 26 15 20 67 22 58 58 50 25 14 67 34 98 96 27 87 49 83 45 97 87 20 12 92 74 33 81 96 34 9 4 55 25 7 55 73 71 56 27 59" ;
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 10" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 10" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 10" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 
 		unevenSearchSeqStr = "90";
@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 		std::cout << "SearchUnordered search row(s) expected: 3, 4, 6, 8" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 3, 4, 6, 8" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 3" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSearchStrList, unevenInputSeqStr, unevenInputSeq);
 
 		// Test #3: Performance test (1000 x 1000 matrix)
@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
 		MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
 		std::cout << "SearchUnordered search row(s) expected: Entire matrix" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
-		std::cout << "SearchBestMatch search row(s) expected: 16" << std::endl;
+		std::cout << "SearchBestMatch search row expected: 1" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
 
 		// Test #4: Performance test (10000 x 10000 matrix) *Not enough memory to generate
