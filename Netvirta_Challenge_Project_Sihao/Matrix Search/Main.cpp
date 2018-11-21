@@ -268,9 +268,9 @@ int main(int argc, char *argv[])
 		std::cout << "Search string: " << perf1000_1000InputSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 16" << std::endl;
 		MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
-		std::cout << "SearchSequence search row(s) expected: 16" << std::endl;
+		std::cout << "SearchUnordered search row(s) expected: Entire matrix" << std::endl;
 		MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
-		std::cout << "SearchSequence search row(s) expected: 16" << std::endl;
+		std::cout << "SearchBestMatch search row(s) expected: 16" << std::endl;
 		MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, perf1000_1000SearchStrList, perf1000_1000InputSeqStr, perf1000_1000InputSeq);
 
 		// Test #4: Performance test (10000 x 10000 matrix) *Not enough memory to generate

@@ -8,7 +8,7 @@ class SearchResult
 {
 public:
 	SearchResult();
-	SearchResult(const unsigned row);
+	SearchResult(const unsigned row, const unsigned expectedSize);
 	SearchResult(const SearchResult& res);
 	const int Row() const;
 	SearchResult& operator=(const SearchResult& res);
@@ -20,10 +20,13 @@ public:
 	bool Has(const int num, const int pos);
 	int Find(const std::vector<ElemData>& data, const int num);
 	const unsigned Size() const;
+	bool MatchSize();
 	bool MatchSize(const unsigned size);
 	const int MatchSize(const std::vector<int>& inputSeq) const;
 	bool InASequence();
 	bool InSequence(const int newPos);
+	bool InDirectSequence(const int newPos);
+	bool WithinASequence(const int newPos);
 
 	const std::string PrintSequence();
 
@@ -31,6 +34,7 @@ private:
 	bool IsSmaller(const ElemData& data1, const ElemData& data2) const;
 	void Sort();
 	unsigned _row;
+	unsigned _expectedSize;
 	std::vector<ElemData> _foundNumsList;
 	std::vector<ElemData> _foundNumsListSorted;
 };

@@ -1,12 +1,12 @@
 ﻿  EncryptedMatrix.cpp
-..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.cpp(102): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+..\Netvirta_Challenge_Project_Sihao\EncryptedMatrix.cpp(112): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   MatrixUtils.cpp
   StringUtils.cpp
   Main.cpp
   MatrixSearch.cpp
   SearchResult.cpp
   Generating code
-  All 678 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 699 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   Matrix Search.vcxproj -> K:\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Release\Matrix Search.exe
   Matrix Search.vcxproj -> K:\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Release\Matrix Search.pdb (Full PDB)

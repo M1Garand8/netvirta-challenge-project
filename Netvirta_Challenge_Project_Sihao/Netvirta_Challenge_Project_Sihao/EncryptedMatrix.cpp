@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <tuple>
 
 EncryptedMatrix::EncryptedMatrix(unsigned row, unsigned col) : _row(row), _col(col)	{ }
 
@@ -85,6 +86,15 @@ const std::vector<int> EncryptedMatrix::GetRowData(const unsigned row) const
 	unsigned rowBegin = (row * _col);
 	unsigned rowEnd = rowBegin + _col;
 	std::vector<int> rowData{ _matrix.begin() + rowBegin, _matrix.begin() + rowEnd };
+
+	return rowData;
+}
+
+const std::vector<ElemData> EncryptedMatrix::GetSortedRowData(const unsigned row) const
+{
+	unsigned rowBegin = (row * _col);
+	unsigned rowEnd = rowBegin + _col;
+	std::vector<ElemData> rowData{ _matrixSorted.begin() + rowBegin, _matrixSorted.begin() + rowEnd };
 
 	return rowData;
 }
@@ -242,7 +252,11 @@ std::vector<ElemData> EncryptedMatrix::GenerateSortedRow(const unsigned row)
 		rowData.push_back(data);
 	}
 	std::sort(rowData.begin(), rowData.end(), [](const ElemData& data1, const ElemData& data2) {
-		return (data1.Num() < data2.Num()) && (data1.Pos() < data2.Pos());
+		int lhsNum = data1.Num();
+		int lhsPos = data1.Pos();
+		int rhsNum = data2.Num();
+		int rhsPos = data2.Pos();
+		return std::tie(lhsNum, lhsPos) < std::tie(rhsNum, rhsPos);
 	});
 
 	return rowData;

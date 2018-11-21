@@ -13,6 +13,7 @@ public:
 	const unsigned Col() const;
 	const std::vector<int> GetMatrixData() const;
 	const std::vector<int> GetRowData(const unsigned row) const;
+	const std::vector<ElemData> GetSortedRowData(const unsigned row) const;
 	const std::string GetRowString(const unsigned row) const;
 	void GenerateMatrix();
 	void Print();

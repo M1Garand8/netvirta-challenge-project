@@ -6,7 +6,7 @@
 
 SearchResult::SearchResult() { }
 
-SearchResult::SearchResult(const unsigned row) : _row(row) { }
+SearchResult::SearchResult(const unsigned row, const unsigned expectedSize) : _row(row), _expectedSize(expectedSize) { }
 
 SearchResult::SearchResult(const SearchResult& res)
 {
@@ -124,6 +124,11 @@ const unsigned SearchResult::Size() const
 	return _foundNumsList.size();
 }
 
+bool SearchResult::MatchSize()
+{
+	return _expectedSize == _foundNumsList.size();
+}
+
 bool SearchResult::MatchSize(const unsigned size)
 {
 	return size == _foundNumsList.size();
@@ -199,7 +204,48 @@ bool SearchResult::InSequence(const int newPos)
 	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
 	int diff = abs(lastElemPos - newPos);
 
+	return newPos > lastElemPos;
+}
+
+// Checks if new position to be added is directly after the last found position
+bool SearchResult::InDirectSequence(const int newPos)
+{
+	unsigned seqSize = _foundNumsListSorted.size();
+	// First in sequence, always in "sequence"
+	if (seqSize == 0)
+	{
+		return true;
+	}
+
+	unsigned lastElem = _foundNumsListSorted.size() - 1;
+	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
+	int diff = abs(lastElemPos - newPos);
+
 	return newPos > lastElemPos && diff == 1;
+}
+
+// Checks if new position to be added is within the range expected by the leftmost position
+bool SearchResult::WithinASequence(const int newPos)
+{
+	unsigned seqSize = _foundNumsListSorted.size();
+	// First in sequence, always in "sequence"
+	if (seqSize == 0)
+	{
+		return true;
+	}
+
+	for (unsigned i = 0; i < seqSize; ++i)
+	{
+		int currElemPos = _foundNumsListSorted[i].Pos();
+		unsigned diff = abs(currElemPos - newPos);
+
+		if (diff > seqSize)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 const std::string SearchResult::PrintSequence()
