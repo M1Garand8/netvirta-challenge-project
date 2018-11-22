@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "..\Matrix Search\SearchResult.h"
 
 class StringUtils
 {

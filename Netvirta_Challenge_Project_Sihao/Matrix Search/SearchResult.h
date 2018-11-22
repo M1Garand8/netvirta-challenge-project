@@ -3,6 +3,23 @@
 
 #include "..\Netvirta_Challenge_Project_Sihao\MatrixUtils.h"
 #include <vector>
+#include <unordered_map>
+
+class SearchInput
+{
+public:
+	SearchInput(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
+	void Update(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
+	const int& operator[](unsigned i);
+	const unsigned Size() const;
+	const int GetCount(int num) const;
+	const std::vector<int>& GetInputSequence() const;
+
+private:
+	void Set(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
+	std::vector<int> _inputSequence;
+	std::unordered_map<int, int> _sequenceCount;
+};
 
 class SearchResult
 {

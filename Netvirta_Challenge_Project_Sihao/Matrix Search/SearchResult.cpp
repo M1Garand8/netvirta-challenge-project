@@ -1,8 +1,68 @@
 #include "SearchResult.h"
 #include "..\Netvirta_Challenge_Project_Sihao\StringUtils.h"
+#include <iostream>
 #include <cmath>
 #include <algorithm>
 #include <string>
+
+SearchInput::SearchInput(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
+{
+	Set(searchFuncSeq, hasSearchFunc);
+}
+
+void SearchInput::Update(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
+{
+	_inputSequence.clear();
+	_sequenceCount.clear();
+
+	Set(searchFuncSeq, hasSearchFunc);
+}
+
+const int& SearchInput::operator[](unsigned i)
+{
+	unsigned size = _inputSequence.size();
+	if (i >= size)
+	{
+		std::cout << "Index out of bounds." << std::endl;
+		unsigned end = size - 1;
+		return _inputSequence[end];
+	}
+
+	return _inputSequence[i];
+}
+
+const unsigned SearchInput::Size() const
+{
+	return _inputSequence.size();
+}
+
+const int SearchInput::GetCount(int num) const
+{
+	auto findRes = _sequenceCount.find(num);
+
+	if (findRes != _sequenceCount.end())
+	{
+		return findRes->second;
+	}
+
+	return -1;
+}
+
+const std::vector<int>& SearchInput::GetInputSequence() const
+{
+	return _inputSequence;
+}
+
+void SearchInput::Set(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
+{
+	_inputSequence = StringUtils::IntParseSearchSequence(searchFuncSeq, hasSearchFunc);
+
+	for (unsigned i = 0; i < _inputSequence.size(); ++i)
+	{
+		int currNum = _inputSequence[i];
+		++_sequenceCount[currNum];
+	}
+}
 
 SearchResult::SearchResult() { }
 
@@ -202,7 +262,6 @@ bool SearchResult::InSequence(const int newPos)
 
 	unsigned lastElem = _foundNumsListSorted.size() - 1;
 	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
-	int diff = abs(lastElemPos - newPos);
 
 	return newPos > lastElemPos;
 }
