@@ -11,7 +11,9 @@ public:
 	EncryptedMatrix(const std::string path, bool encryptDecrypt = true);
 	const unsigned Row() const;
 	const unsigned Col() const;
-	const std::vector<int> GetMatrixData() const;
+	const std::vector<int>& GetMatrixData() const;
+	const std::vector<ElemData>& GetSortedMatrixData() const;
+	const ElemData& operator[](unsigned i) const;
 	const std::vector<int> GetRowData(const unsigned row) const;
 	const std::vector<ElemData> GetSortedRowData(const unsigned row) const;
 	const std::string GetRowString(const unsigned row) const;

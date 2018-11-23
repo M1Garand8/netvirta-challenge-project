@@ -136,53 +136,35 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.Size());
-		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
+		//std::vector<ElemData> rowData = mat.GetSortedMatrixData();
+		int rowStart = StringUtils::SafeConvertUnsigned(i * mat.Col());
+		int rowEnd = rowStart + StringUtils::SafeConvertUnsigned(mat.Col()) - 1;
 		for (unsigned j = 0; j < inputSeq.Size(); ++j)
 		{
 			int currSearchInt = inputSeq[j];
 			int numCount = inputSeq.GetCount(currSearchInt);
-			int lastPos = StringUtils::SafeConvertUnsigned(rowData.size() - 1);
-			int numExist = BinarySearch(rowData, 0, lastPos, currSearchInt);
+			int numExist = BinarySearch(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 			if (numExist != -1)
 			{
-				int lowerNumPos = BinarySearchLowerBound(rowData, 0, lastPos, currSearchInt);
-				int upperNumPos = BinarySearchUpperBound(rowData, 0, lastPos, currSearchInt);
+				int lowerNumPos = BinarySearchLowerBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
+				int upperNumPos = BinarySearchUpperBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 
-				// If only 1 number found, just check its relative position
-				if (lowerNumPos == upperNumPos)
+				// Check number's relative position
+				int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
+				// Trivial Rejection: No more need to search further if input sequence contains more repeating
+				// numbers than exists in the row
+				if (numCount > rowNumCount)
 				{
-					// Trivial Rejection: No more need to search further if input sequence contains more repeating
-					// numbers than exists in the row
-					if (numCount > 1)
-					{
-						break;
-					}
-
-					ElemData num = rowData[lowerNumPos];
-					if (res.Has(num.Num(), num.Pos()) == false && res.InSequence(num.Pos()) == true)
-					{
-						res.Add(num.Num(), num.Pos());
-					}
+					break;
 				}
-				// Multiple numbers found, have to check position for all
-				else
-				{
-					int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
-					// Trivial Rejection: No more need to search further if input sequence contains more repeating
-					// numbers than exists in the row
-					if (numCount > rowNumCount)
-					{
-						break;
-					}
 
-					for (int i = lowerNumPos; i <= upperNumPos; ++i)
+				for (int i = lowerNumPos; i <= upperNumPos; ++i)
+				{
+					ElemData currNum = mat[i];
+					if (res.Has(currNum.Num(), currNum.Pos()) == false && res.InSequence(currNum.Pos()) == true)
 					{
-						ElemData currNum = rowData[i];
-						if (res.Has(currNum.Num(), currNum.Pos()) == false && res.InSequence(currNum.Pos()) == true)
-						{
-							res.Add(currNum.Num(), currNum.Pos());
-							break;
-						}
+						res.Add(currNum.Num(), currNum.Pos());
+						break;
 					}
 				}
 			}
@@ -325,17 +307,19 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, /*const 
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.Size());
-		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
+		//std::vector<ElemData> rowData = mat.GetSortedRowData(i);
+		int rowStart = StringUtils::SafeConvertUnsigned(i * mat.Col());
+		int rowEnd = rowStart + StringUtils::SafeConvertUnsigned(mat.Col()) - 1;
 		for (unsigned j = 0; j < inputSeq.Size(); ++j)
 		{
 			int currSearchInt = inputSeq[j];
 			int numCount = inputSeq.GetCount(currSearchInt);
-			int lastPos = StringUtils::SafeConvertUnsigned(rowData.size() - 1);
-			int numExist = BinarySearch(rowData, 0, lastPos, currSearchInt);
+			//int lastPos = StringUtils::SafeConvertUnsigned(rowData.size() - 1);
+			int numExist = BinarySearch(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 			if (numExist != -1)
 			{
-				int lowerNumPos = BinarySearchLowerBound(rowData, 0, lastPos, currSearchInt);
-				int upperNumPos = BinarySearchUpperBound(rowData, 0, lastPos, currSearchInt);
+				int lowerNumPos = BinarySearchLowerBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
+				int upperNumPos = BinarySearchUpperBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 				int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
 
 				// Trivial Rejection: No more need to search further if input sequence contains more repeating
@@ -347,7 +331,7 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, /*const 
 
 				for (int i = lowerNumPos; i <= upperNumPos; ++i)
 				{
-					ElemData currNum = rowData[i];
+					ElemData currNum = mat[i];
 					if (res.Has(currNum.Num(), currNum.Pos()) == false)
 					{
 						res.Add(currNum.Num(), currNum.Pos());
@@ -450,17 +434,19 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, /*const 
 	{
 		int row = i + 1;
 		SearchResult res(row, inputSeq.Size());
-		std::vector<ElemData> rowData = mat.GetSortedRowData(i);
+		//std::vector<ElemData> rowData = mat.GetSortedRowData(i);
+		int rowStart = StringUtils::SafeConvertUnsigned(i * mat.Col());
+		int rowEnd = rowStart + StringUtils::SafeConvertUnsigned(mat.Col()) - 1;
 		for (unsigned j = 0; j < inputSeq.Size(); ++j)
 		{
 			int currSearchInt = inputSeq[j];
 			int numCount = inputSeq.GetCount(currSearchInt);
-			int lastPos = StringUtils::SafeConvertUnsigned(rowData.size() - 1);
-			int numExist = BinarySearch(rowData, 0, lastPos, currSearchInt);
+			//int lastPos = StringUtils::SafeConvertUnsigned(rowData.size() - 1);
+			int numExist = BinarySearch(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 			if (numExist != -1)
 			{
-				int lowerNumPos = BinarySearchLowerBound(rowData, 0, lastPos, currSearchInt);
-				int upperNumPos = BinarySearchUpperBound(rowData, 0, lastPos, currSearchInt);
+				int lowerNumPos = BinarySearchLowerBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
+				int upperNumPos = BinarySearchUpperBound(mat.GetSortedMatrixData(), rowStart, rowEnd, currSearchInt);
 				int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
 
 				// Trivial Rejection: No more need to search further if input sequence contains more repeating
@@ -472,7 +458,7 @@ void MatrixSearch::SearchBestMatchOptimized(const EncryptedMatrix& mat, /*const 
 
 				for (int i = lowerNumPos; i <= upperNumPos; ++i)
 				{
-					ElemData currNum = rowData[i];
+					ElemData currNum = mat[i];
 					if (res.Has(currNum.Num(), currNum.Pos()) == false)
 					{
 						res.Add(currNum.Num(), currNum.Pos());

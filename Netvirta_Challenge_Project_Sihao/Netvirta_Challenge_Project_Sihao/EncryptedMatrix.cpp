@@ -76,9 +76,27 @@ const unsigned EncryptedMatrix::Col() const
 	return _col;
 }
 
-const std::vector<int> EncryptedMatrix::GetMatrixData() const
+const std::vector<int>& EncryptedMatrix::GetMatrixData() const
 {
 	return _matrix;
+}
+
+const std::vector<ElemData>& EncryptedMatrix::GetSortedMatrixData() const
+{
+	return _matrixSorted;
+}
+
+const ElemData& EncryptedMatrix::operator[](unsigned i) const
+{
+	unsigned size = _matrixSorted.size();
+	if (i >= size)
+	{
+		std::cout << "Index out of bounds." << std::endl;
+		unsigned end = size - 1;
+		return _matrixSorted[end];
+	}
+
+	return _matrixSorted[i];
 }
 
 const std::vector<int> EncryptedMatrix::GetRowData(const unsigned row) const
