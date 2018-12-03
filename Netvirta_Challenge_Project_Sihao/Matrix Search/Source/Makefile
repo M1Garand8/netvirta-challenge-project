@@ -1,6 +1,6 @@
 IDIR =../Header
 CC=g++
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) ../../Netvirta_Challenge_Project_Sihao/Source
 
 ODIR=obj
 
