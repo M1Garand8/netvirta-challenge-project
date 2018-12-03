@@ -1,5 +1,5 @@
 IDIR =../Header
-CC=gcc
+CC=g++
 CFLAGS=-I$(IDIR)
 
 ODIR=obj
@@ -12,7 +12,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
 $(ODIR)/%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -std=c++11 -c -o $@ $< $(CFLAGS)
 
 Main: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
