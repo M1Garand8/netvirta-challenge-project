@@ -14,7 +14,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -std=c++11 -c -o $@ $< $(CFLAGS)
 
-Main: $(OBJ)
+MatrixGenerator: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
