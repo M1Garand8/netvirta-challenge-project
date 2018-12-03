@@ -1,5 +1,5 @@
 IDIR =../Header
-CC=g++
+CC=gcc
 CFLAGS=-I$(IDIR)
 
 ODIR=obj
