@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 
 	EncryptedMatrix test_matrix{ unsigned(row), unsigned(col) };
 	test_matrix.GenerateMatrix();
-	test_matrix.Print();
-	test_matrix.PrintToFile(filename, false);
+	//test_matrix.Print();
+	test_matrix.PrintToFile(filename);
 
 	return 0;
 }
