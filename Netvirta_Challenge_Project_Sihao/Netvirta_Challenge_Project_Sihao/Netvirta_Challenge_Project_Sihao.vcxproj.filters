@@ -1,38 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source">
+      <UniqueIdentifier>{74799479-93ef-4761-a3e3-de4675c22a1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Matrix">
-      <UniqueIdentifier>{0e00f7dc-c2a6-4338-8a56-43c62f32aece}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StringUtils">
-      <UniqueIdentifier>{c751579f-3f2d-4dac-b006-518deaf5081a}</UniqueIdentifier>
+    <Filter Include="Header">
+      <UniqueIdentifier>{cfb27f60-9af2-48e1-a9aa-38f98bf715f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="StringUtils.cpp">
-      <Filter>StringUtils</Filter>
+    <ClCompile Include="Source\EncryptedMatrix.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="EncryptedMatrix.cpp">
-      <Filter>Matrix</Filter>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="MatrixUtils.cpp">
-      <Filter>Matrix</Filter>
+    <ClCompile Include="Source\MatrixUtils.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StringUtils.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StringUtils.h">
-      <Filter>StringUtils</Filter>
+    <ClInclude Include="Header\EncryptedMatrix.h">
+      <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="EncryptedMatrix.h">
-      <Filter>Matrix</Filter>
+    <ClInclude Include="Header\MatrixUtils.h">
+      <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixUtils.h">
-      <Filter>Matrix</Filter>
+    <ClInclude Include="Header\StringUtils.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

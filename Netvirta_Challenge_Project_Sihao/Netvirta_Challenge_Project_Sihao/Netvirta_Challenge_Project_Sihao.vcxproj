@@ -149,15 +149,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EncryptedMatrix.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MatrixUtils.cpp" />
-    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="Source\EncryptedMatrix.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\MatrixUtils.cpp" />
+    <ClCompile Include="Source\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EncryptedMatrix.h" />
-    <ClInclude Include="MatrixUtils.h" />
-    <ClInclude Include="StringUtils.h" />
+    <ClInclude Include="Header\EncryptedMatrix.h" />
+    <ClInclude Include="Header\MatrixUtils.h" />
+    <ClInclude Include="Header\StringUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
