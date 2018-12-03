@@ -11,7 +11,7 @@ _OBJ = Main.o EncryptedMatrix.o MatrixUtils.o StringUtils.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 Main: $(OBJ)
