@@ -4,7 +4,7 @@ CFLAGS=-I$(IDIR)
 
 ODIR=obj
 
-_DEPS = ../../Header/EncryptedMatrix.h ../../Header/MatrixUtils.h ../../Header/StringUtils.h MatrixSearch.h SearchResult.h
+_DEPS = ../../Header/Netvirta_Challenge_Project_Sihao/EncryptedMatrix.h ../../Netvirta_Challenge_Project_Sihao/Header/MatrixUtils.h ../../Netvirta_Challenge_Project_Sihao/Header/StringUtils.h MatrixSearch.h SearchResult.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = Main.o EncryptedMatrix.o MatrixUtils.o StringUtils.o MatrixSearch.o SearchResult.o
