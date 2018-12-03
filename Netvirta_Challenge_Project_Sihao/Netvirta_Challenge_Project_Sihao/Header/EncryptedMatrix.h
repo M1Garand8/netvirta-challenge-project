@@ -2,6 +2,7 @@
 #define ENCRYPTEDMATRIX_H
 
 #include "MatrixUtils.h"
+#include <string>
 #include <vector>
 
 class EncryptedMatrix
