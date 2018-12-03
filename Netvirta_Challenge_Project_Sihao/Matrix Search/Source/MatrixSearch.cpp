@@ -1,6 +1,6 @@
-#include "..\Header\MatrixSearch.h"
-#include "..\..\Netvirta_Challenge_Project_Sihao\Header\StringUtils.h"
-#include "..\Header\SearchResult.h"
+#include "../Header/MatrixSearch.h"
+#include "../../Netvirta_Challenge_Project_Sihao/Header/StringUtils.h"
+#include "../Header/SearchResult.h"
 #include <iostream>
 #include <chrono>
 

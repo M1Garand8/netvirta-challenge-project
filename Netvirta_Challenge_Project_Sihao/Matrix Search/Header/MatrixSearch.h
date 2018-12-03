@@ -1,7 +1,7 @@
 #ifndef MATRIXSEARCH_H
 #define MATRIXSEARCH_H
 
-#include "..\..\Netvirta_Challenge_Project_Sihao\Header\EncryptedMatrix.h"
+#include "../../Netvirta_Challenge_Project_Sihao/Header/EncryptedMatrix.h"
 #include "SearchResult.h"
 
 class MatrixSearch

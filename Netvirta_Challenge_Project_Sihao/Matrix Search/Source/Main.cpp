@@ -1,7 +1,7 @@
-#include "..\..\Netvirta_Challenge_Project_Sihao\Header\StringUtils.h"
-//#include "..\..\Netvirta_Challenge_Project_Sihao\Header\EncryptedMatrix.h"
-#include "..\Header\MatrixSearch.h"
-#include "..\Header\SearchResult.h"
+#include "../../Netvirta_Challenge_Project_Sihao/Header/StringUtils.h"
+//#include "../../Netvirta_Challenge_Project_Sihao/Header/EncryptedMatrix.h"
+#include "../Header/MatrixSearch.h"
+#include "../Header/SearchResult.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>

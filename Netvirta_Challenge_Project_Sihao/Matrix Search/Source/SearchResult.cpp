@@ -1,5 +1,5 @@
-#include "..\Header\SearchResult.h"
-#include "..\..\Netvirta_Challenge_Project_Sihao\Header\StringUtils.h"
+#include "../Header/SearchResult.h"
+#include "../../Netvirta_Challenge_Project_Sihao/Header/StringUtils.h"
 #include <iostream>
 #include <cmath>
 #include <algorithm>

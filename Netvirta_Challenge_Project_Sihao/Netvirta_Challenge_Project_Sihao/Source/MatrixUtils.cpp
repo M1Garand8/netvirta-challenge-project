@@ -1,4 +1,4 @@
-#include "..\Header\MatrixUtils.h"
+#include "../Header/MatrixUtils.h"
 
 ElemData::ElemData(const int num, const int pos) : _num(num), _pos(pos) { }
 

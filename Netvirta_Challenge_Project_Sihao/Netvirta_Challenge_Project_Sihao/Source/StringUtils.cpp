@@ -1,4 +1,4 @@
-#include "..\Header\StringUtils.h"
+#include "../Header/StringUtils.h"
 #include <sstream>
 
 bool StringUtils::TryParse(const std::string str, int& result)

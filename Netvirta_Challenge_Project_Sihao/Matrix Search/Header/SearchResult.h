@@ -1,7 +1,7 @@
 #ifndef SEARCHRESULT_H
 #define SEARCHRESULT_H
 
-#include "..\..\Netvirta_Challenge_Project_Sihao\Header\MatrixUtils.h"
+#include "../../Netvirta_Challenge_Project_Sihao/Header/MatrixUtils.h"
 #include <vector>
 #include <unordered_map>
 

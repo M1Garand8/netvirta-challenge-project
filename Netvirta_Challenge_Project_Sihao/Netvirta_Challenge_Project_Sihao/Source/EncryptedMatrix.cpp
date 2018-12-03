@@ -1,5 +1,5 @@
-#include "..\Header\EncryptedMatrix.h"
-#include "..\Header\StringUtils.h"
+#include "../Header/EncryptedMatrix.h"
+#include "../Header/StringUtils.h"
 #include <time.h>
 #include <cstdlib>
 #include <string>
