@@ -1,5 +1,6 @@
 #include "../Header/StringUtils.h"
 #include <sstream>
+#include <limits>
 
 bool StringUtils::TryParse(const std::string str, int& result)
 {
