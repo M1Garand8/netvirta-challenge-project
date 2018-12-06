@@ -1,5 +1,8 @@
 BUILD_DIR = .
 SOURCE_DIR = ../../Netvirta_Challenge_Project_Sihao/Source
+COPY_FILES = $(BUILD_DIR)/EncryptedMatrix.cpp $(BUILD_DIR)/MatrixUtils.cpp $(BUILD_DIR)/StringUtils.cpp
+
+all: $(COPY_FILES)
 
 $(BUILD_DIR)/EncryptedMatrix.cpp: $(SOURCE_DIR)/EncryptedMatrix.cpp
 $(BUILD_DIR)/MatrixUtils.cpp: $(SOURCE_DIR)/MatrixUtils.cpp
