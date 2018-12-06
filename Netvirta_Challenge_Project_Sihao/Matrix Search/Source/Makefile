@@ -9,7 +9,7 @@ $(BUILD_DIR)/MatrixUtils.cpp: $(SOURCE_DIR)/MatrixUtils.cpp
 $(BUILD_DIR)/StringUtils.cpp: $(SOURCE_DIR)/StringUtils.cpp
 
 $(BUILD_DIR)/%:
-	cp -f $< $@
+	cp -f $(SOURCE_DIR) $@
 
 IDIR =../Header
 CC=g++
