@@ -1,6 +1,7 @@
 SOURCE_DIR = ../../Netvirta_Challenge_Project_Sihao/Source
 SOURCE = $(SOURCE_DIR)/EncryptedMatrix.cpp $(SOURCE_DIR)/Source/MatrixUtils.cpp $(SOURCE_DIR)/Source/StringUtils.cpp
-	cp -f $(SOURCE)
+.:
+	cp -f $(SOURCE) .
 
 IDIR =../Header
 CC=g++
