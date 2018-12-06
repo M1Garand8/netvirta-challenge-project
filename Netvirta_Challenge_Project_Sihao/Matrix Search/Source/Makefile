@@ -1,6 +1,9 @@
+SOURCE = ../../Netvirta_Challenge_Project_Sihao/Source/EncryptedMatrix.cpp ../../Netvirta_Challenge_Project_Sihao/Source/MatrixUtils.cpp ../../Netvirta_Challenge_Project_Sihao/Source/StringUtils.cpp
+	cp -f $(SOURCE) .
+
 IDIR =../Header
 CC=g++
-CFLAGS=-I$(IDIR) ../../Netvirta_Challenge_Project_Sihao/Source
+CFLAGS=-I$(IDIR)
 
 ODIR=obj
 
