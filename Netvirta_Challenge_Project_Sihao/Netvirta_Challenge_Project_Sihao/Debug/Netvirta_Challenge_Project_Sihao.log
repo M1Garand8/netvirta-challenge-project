@@ -2,7 +2,7 @@
   MatrixUtils.cpp
   Main.cpp
   EncryptedMatrix.cpp
-e:\k drive\digipen\netvirta\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\source\encryptedmatrix.cpp(149): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+e:\k drive\digipen\netvirta\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\source\encryptedmatrix.cpp(164): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating Code...
   Netvirta_Challenge_Project_Sihao.vcxproj -> E:\K Drive\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Debug\Matrix Generator.exe
   Netvirta_Challenge_Project_Sihao.vcxproj -> E:\K Drive\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Debug\Matrix Generator.pdb (Full PDB)

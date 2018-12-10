@@ -61,12 +61,16 @@ class SearchResultList
 {
 public:
 	bool Add(const int currSrchSeq, const int searchSize, const ElemData data, bool isOrdered = true);
+	void Add(const int currRow, const ElemData data);
+	bool Has(const int currRow, const ElemData data);
+	bool InSequence(const int currRow, const int newPos);
 	std::vector<int> GetFoundList(const int searchSize);
 
 private:
 	void Sort();
 	int BinarySearchRow(const std::vector<SearchResult>& data, int l, int r, const int row);
 	std::vector<SearchResult> _searchResList;
+	std::unordered_map<int, SearchResult> _searchResMap;
 };
 
 #endif // !SEARCHRESULT_H

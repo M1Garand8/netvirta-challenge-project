@@ -397,15 +397,59 @@ bool SearchResultList::Add(const int currSrchSeq, const int searchSize, const El
 	return false;
 }
 
+void SearchResultList::Add(const int currRow, const ElemData data)
+{
+	if (_searchResMap.find(currRow) == _searchResMap.end())
+	{
+		SearchResult res;
+		_searchResMap[currRow] = res;
+	}
+
+	_searchResMap[currRow].Add(data);
+}
+
+bool SearchResultList::Has(const int currRow, const ElemData data)
+{
+	if (_searchResMap.find(currRow) == _searchResMap.end())
+	{
+		return false;
+	}
+
+	SearchResult res = _searchResMap[currRow];
+
+	return res.Has(data.Num(), data.Pos());
+}
+
+bool SearchResultList::InSequence(const int currRow, const int newPos)
+{
+	auto rowExist = _searchResMap.find(currRow);
+
+	// First in the sequence, always true
+	if (rowExist == _searchResMap.end())
+	{
+		return true;
+	}
+
+	return rowExist->second.InSequence(newPos);
+}
+
 std::vector<int> SearchResultList::GetFoundList(const int searchSize)
 {
 	std::vector<int> foundRows;
-	for (unsigned i = 0; i < _searchResList.size(); ++i)
+	/*for (unsigned i = 0; i < _searchResList.size(); ++i)
 	{
 		SearchResult currRes = _searchResList[i];
 		if (currRes.Size() == searchSize)
 		{
 			foundRows.push_back(currRes.Row());
+		}
+	}*/
+
+	for (auto resEntry : _searchResMap)
+	{
+		if (resEntry.second.Size() == searchSize)
+		{
+			foundRows.push_back(resEntry.first);
 		}
 	}
 

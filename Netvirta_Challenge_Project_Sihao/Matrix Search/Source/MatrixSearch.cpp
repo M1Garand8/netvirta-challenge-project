@@ -195,88 +195,125 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 	//	}
 	//}
 
-	SearchResultList foundList;
-	// For debugging
+	//SearchResultList foundList;
+	//// For debugging
 	//int elemsSearched = 0;
+	//for (unsigned i = 0; i < inputSeq.Size(); ++i)
+	//{
+	//	//++elemsSearched;
+	//	int matSize = StringUtils::SafeConvertUnsigned(matData.size());
+	//	int lastElem = matSize - 1;
+
+	//	int currSearchInt = inputSeq[i];
+	//	int numCount = inputSeq.GetCount(currSearchInt);
+	//	int numExist = BinarySearch(matData, 0, matSize, currSearchInt);
+	//	if (numExist != -1)
+	//	{
+	//		int lowerNumPos = BinarySearchLowerBound(matData, 0, lastElem, currSearchInt);
+	//		int upperNumPos = BinarySearchUpperBound(matData, 0, lastElem, currSearchInt) - 1;
+
+	//		int prevRow = 0;
+	//		bool numAdded = false;
+	//		//for (int r = lowerNumPos; r <= upperNumPos; ++r)
+	//		//{
+	//		//	//++elemsSearched;
+	//		//	ElemData currNum = matData[r];
+	//		//	int currRow = currNum.Row();
+	//		//	// Reset isAdded flag on new row
+	//		//	if (currRow != prevRow)
+	//		//	{
+	//		//		numAdded = false;
+	//		//	}
+
+	//		//	// Add number only once
+	//		//	if (currNum.Num() == currSearchInt && numAdded == false)
+	//		//	{
+	//		//		numAdded = foundList.Add(i + 1, inputSeq.Size(), currNum);
+	//		//	}
+
+	//		//	prevRow = currRow;
+	//		//}
+
+	//		std::vector<std::vector<OrderedElemData>> orderedData = GetOrderedDataByRows(matData, lowerNumPos, upperNumPos);
+	//		std::vector<int> toRemoveList;
+	//		for (unsigned o = 0; o < orderedData.size(); ++o)
+	//		{
+	//			numAdded = false;
+
+	//			/*int rowNumSize = StringUtils::SafeConvertUnsigned(orderedData[o].size());
+	//			if (rowNumSize < numCount)
+	//			{
+	//				continue;
+	//			}*/
+
+	//			for (unsigned d = 0; d < orderedData[o].size(); ++d)
+	//			{
+	//				OrderedElemData& currNum = orderedData[o][d];
+
+	//				// Add number only once
+	//				if (currNum.Data().Num() == currSearchInt && numAdded == false)
+	//				{
+	//					numAdded = foundList.Add(i + 1, inputSeq.Size(), currNum.Data());
+	//					if (numAdded == true)
+	//					{
+	//						toRemoveList.push_back(currNum.Pos());
+	//					}
+	//				}
+	//			}
+	//		}
+
+	//		int removeStart = toRemoveList.size() - 1;
+	//		if (removeStart > 0)
+	//		{
+	//			for (int r = removeStart; r >= 0; --r)
+	//			{
+	//				matData.erase(matData.begin() + toRemoveList[r]);
+	//			}
+	//		}
+	//	}
+	//	// Trivial Rejection: No matching number in all rows
+	//	else
+	//	{
+	//		break;
+	//	}
+	//}
+	
+	SearchResultList foundList;
+	const MatrixNumMap& matrixMap = mat.GetMatrixMap();
 	for (unsigned i = 0; i < inputSeq.Size(); ++i)
 	{
-		//++elemsSearched;
-		int matSize = StringUtils::SafeConvertUnsigned(matData.size());
-		int lastElem = matSize - 1;
-
 		int currSearchInt = inputSeq[i];
 		int numCount = inputSeq.GetCount(currSearchInt);
-		int numExist = BinarySearch(matData, 0, matSize, currSearchInt);
-		if (numExist != -1)
-		{
-			int lowerNumPos = BinarySearchLowerBound(matData, 0, lastElem, currSearchInt);
-			int upperNumPos = BinarySearchUpperBound(matData, 0, lastElem, currSearchInt) - 1;
 
-			int prevRow = 0;
-			bool numAdded = false;
-			//for (int r = lowerNumPos; r <= upperNumPos; ++r)
-			//{
-			//	//++elemsSearched;
-			//	ElemData currNum = matData[r];
-			//	int currRow = currNum.Row();
-			//	// Reset isAdded flag on new row
-			//	if (currRow != prevRow)
-			//	{
-			//		numAdded = false;
-			//	}
-
-			//	// Add number only once
-			//	if (currNum.Num() == currSearchInt && numAdded == false)
-			//	{
-			//		numAdded = foundList.Add(i + 1, inputSeq.Size(), currNum);
-			//	}
-
-			//	prevRow = currRow;
-			//}
-
-			std::vector<std::vector<OrderedElemData>> orderedData = GetOrderedDataByRows(matData, lowerNumPos, upperNumPos);
-			std::vector<int> toRemoveList;
-			for (unsigned o = 0; o < orderedData.size(); ++o)
-			{
-				numAdded = false;
-
-				/*int rowNumSize = StringUtils::SafeConvertUnsigned(orderedData[o].size());
-				if (rowNumSize < numCount)
-				{
-					continue;
-				}*/
-
-				for (unsigned d = 0; d < orderedData[o].size(); ++d)
-				{
-					OrderedElemData& currNum = orderedData[o][d];
-
-					// Add number only once
-					if (currNum.Data().Num() == currSearchInt && numAdded == false)
-					{
-						numAdded = foundList.Add(i + 1, inputSeq.Size(), currNum.Data());
-						if (numAdded == true)
-						{
-							toRemoveList.push_back(currNum.Pos());
-						}
-					}
-				}
-			}
-
-			int removeStart = toRemoveList.size() - 1;
-			if (removeStart > 0)
-			{
-				for (int r = removeStart; r >= 0; --r)
-				{
-					matData.erase(matData.begin() + toRemoveList[r]);
-				}
-			}
-		}
-		// Trivial Rejection: No matching number in all rows
-		else
+		// No number found, stop searching
+		if (matrixMap.find(currSearchInt) == matrixMap.end())
 		{
 			break;
 		}
+
+		const MatrixRowMap& matrixRowMap = matrixMap.find(currSearchInt)->second;
+		for (auto rowMap : matrixRowMap)
+		{
+			int rowowNumCount = StringUtils::SafeConvertUnsigned(rowMap.second.size());
+			// Skip adding if not enough matched number to add
+			if (rowowNumCount < numCount)
+			{
+				continue;
+			}
+
+			for (int p = 0; p < rowowNumCount; ++p)
+			{
+				ElemData data{ currSearchInt, rowMap.second[p] };
+
+				if (foundList.Has(rowMap.first, data) == false && foundList.InSequence(rowMap.first, rowMap.second[p]))
+				{
+					foundList.Add(rowMap.first, data);
+					break;
+				}
+			}
+		}
 	}
+
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
