@@ -104,6 +104,7 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 {
 	std::vector<int> foundRows;
 	std::vector<ElemData> matData = mat.GetSortedMatrixData();
+	const MatrixNumMap& matrixMap = mat.GetMatrixMap();
 
 	auto start = std::chrono::system_clock::now();
 	// Trivial rejection: stop searching immediately if input sequence is empty
@@ -133,68 +134,69 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 		return;
 	}
 
-	//int elemsSearchedOld = 0;
-	//for (unsigned i = 0; i < mat.Row(); ++i)
-	//{
-	//	int row = i + 1;
-	//	SearchResult res(row, inputSeq.Size());
-	//	//std::vector<ElemData> rowData = mat.GetSortedMatrixData();
-	//	int rowStart = StringUtils::SafeConvertUnsigned(i * mat.Col());
-	//	int rowEnd = rowStart + StringUtils::SafeConvertUnsigned(mat.Col()) - 1;
-	//	for (unsigned j = 0; j < inputSeq.Size(); ++j)
-	//	{
-	//		//++elemsSearchedOld;
-	//		int currSearchInt = inputSeq[j];
-	//		int numCount = inputSeq.GetCount(currSearchInt);
-	//		int numExist = BinarySearch(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt);
-	//		if (numExist != -1)
-	//		{
-	//			int lowerNumPos = BinarySearchLowerBound(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt);
-	//			int upperNumPos = BinarySearchUpperBound(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt) - 1;
+	int elemsSearchedOld = 0;
+	for (unsigned i = 0; i < mat.Row(); ++i)
+	{
+		int row = i + 1;
+		SearchResult res(row, inputSeq.Size());
+		//std::vector<ElemData> rowData = mat.GetSortedMatrixData();
+		int rowStart = StringUtils::SafeConvertUnsigned(i * mat.Col());
+		int rowEnd = rowStart + StringUtils::SafeConvertUnsigned(mat.Col()) - 1;
+		for (unsigned j = 0; j < inputSeq.Size(); ++j)
+		{
+			//++elemsSearchedOld;
+			int currSearchInt = inputSeq[j];
+			int numCount = inputSeq.GetCount(currSearchInt);
+			int numExist = BinarySearch(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt);
+			if (numExist != -1)
+			{
+				int lowerNumPos = BinarySearchLowerBound(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt);
+				int upperNumPos = BinarySearchUpperBound(mat.GetOldSortedMatrixData(), rowStart, rowEnd, currSearchInt) - 1;
 
-	//			int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
-	//			// Trivial Rejection: No more need to search further if input sequence contains more repeating
-	//			// numbers than exists in the row
-	//			if (numCount > rowNumCount)
-	//			{
-	//				break;
-	//			}
+				int rowNumCount = (upperNumPos - lowerNumPos) + 1; // + 1 because count is inclusive
+				// Trivial Rejection: No more need to search further if input sequence contains more repeating
+				// numbers than exists in the row
+				if (numCount > rowNumCount)
+				{
+					break;
+				}
 
-	//			for (int i = lowerNumPos; i <= upperNumPos; ++i)
-	//			{
-	//				//++elemsSearchedOld;
-	//				ElemData currNum = mat.GetElemOld(i);
-	//				if (res.Has(currNum.Num(), currNum.Pos()) == false && res.InSequence(currNum.Pos()) == true)
-	//				{
-	//					res.Add(currNum.Num(), currNum.Pos());
-	//					break;
-	//				}
-	//			}
-	//		}
-	//		// If one number not found means sequence not in the row
-	//		else
-	//		{
-	//			break;
-	//		}
+				for (int i = lowerNumPos; i <= upperNumPos; ++i)
+				{
+					//++elemsSearchedOld;
+					ElemData currNum = mat.GetElemOld(i);
+					if (res.Has(currNum.Num(), currNum.Pos()) == false && res.InSequence(currNum.Pos()) == true)
+					{
+						res.Add(currNum.Num(), currNum.Pos());
+						break;
+					}
+				}
+			}
+			// If one number not found means sequence not in the row
+			else
+			{
+				break;
+			}
 
-	//		int currSize = j + 1;
-	//		if (res.MatchSize(currSize) == false)
-	//		{
-	//			// If size fails to match after searching through the row with a particular number,
-	//			// then it means that it won't find the full string, therefore can stop further searching
-	//			break;
-	//		}
-	//	}
+			int currSize = j + 1;
+			if (res.MatchSize(currSize) == false)
+			{
+				// If size fails to match after searching through the row with a particular number,
+				// then it means that it won't find the full string, therefore can stop further searching
+				break;
+			}
+		}
 
-	//	// SearchResult size and input size matches, means all numbers have been found
-	//	if (res.MatchSize(inputSeq.Size()))
-	//	{
-	//		// Comment when not testing
-	//		//std::cout << "Sequence String found for row " << row << ": " << res.PrintSequence() << std::endl;
-	//		foundRows.push_back(row);
-	//	}
-	//}
+		// SearchResult size and input size matches, means all numbers have been found
+		if (res.MatchSize(inputSeq.Size()))
+		{
+			// Comment when not testing
+			//std::cout << "Sequence String found for row " << row << ": " << res.PrintSequence() << std::endl;
+			foundRows.push_back(row);
+		}
+	}
 
+	// Optimization Attempt #2
 	//SearchResultList foundList;
 	//// For debugging
 	//int elemsSearched = 0;
@@ -277,42 +279,43 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 	//		break;
 	//	}
 	//}
-	
-	SearchResultList foundList;
-	const MatrixNumMap& matrixMap = mat.GetMatrixMap();
-	for (unsigned i = 0; i < inputSeq.Size(); ++i)
-	{
-		int currSearchInt = inputSeq[i];
-		int numCount = inputSeq.GetCount(currSearchInt);
 
-		// No number found, stop searching
-		if (matrixMap.find(currSearchInt) == matrixMap.end())
-		{
-			break;
-		}
+	// Optimization Attempt #3
+	//SearchResultList foundList;
+	////const MatrixNumMap& matrixMap = mat.GetMatrixMap();
+	//for (unsigned i = 0; i < inputSeq.Size(); ++i)
+	//{
+	//	int currSearchInt = inputSeq[i];
+	//	int numCount = inputSeq.GetCount(currSearchInt);
 
-		const MatrixRowMap& matrixRowMap = matrixMap.find(currSearchInt)->second;
-		for (auto rowMap : matrixRowMap)
-		{
-			int rowowNumCount = StringUtils::SafeConvertUnsigned(rowMap.second.size());
-			// Skip adding if not enough matched number to add
-			if (rowowNumCount < numCount)
-			{
-				continue;
-			}
+	//	// No number found, stop searching
+	//	if (matrixMap.find(currSearchInt) == matrixMap.end())
+	//	{
+	//		break;
+	//	}
 
-			for (int p = 0; p < rowowNumCount; ++p)
-			{
-				ElemData data{ currSearchInt, rowMap.second[p] };
+	//	const MatrixRowMap& matrixRowMap = matrixMap.find(currSearchInt)->second;
+	//	for (auto rowMap : matrixRowMap)
+	//	{
+	//		int rowowNumCount = StringUtils::SafeConvertUnsigned(rowMap.second.size());
+	//		// Skip adding if not enough matched number to add
+	//		if (rowowNumCount < numCount)
+	//		{
+	//			continue;
+	//		}
 
-				if (foundList.Has(rowMap.first, data) == false && foundList.InSequence(rowMap.first, rowMap.second[p]))
-				{
-					foundList.Add(rowMap.first, data);
-					break;
-				}
-			}
-		}
-	}
+	//		for (int p = 0; p < rowowNumCount; ++p)
+	//		{
+	//			ElemData data{ currSearchInt, rowMap.second[p] };
+
+	//			if (foundList.Has(rowMap.first, data) == false && foundList.InSequence(rowMap.first, rowMap.second[p]))
+	//			{
+	//				foundList.Add(rowMap.first, data);
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
 
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
@@ -320,8 +323,8 @@ void MatrixSearch::SearchSequenceOptimized(const EncryptedMatrix& mat, /*const s
 	//std::cout << "Elements searched (Old): " << elemsSearchedOld << std::endl;
 	//std::cout << "Elements searched (New): " << elemsSearched << std::endl;
 	std::cout << "SearchSequence finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
-	//std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
-	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundList.GetFoundList(inputSeq.Size()), ", ") << std::endl;
+	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
+	//std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundList.GetFoundList(inputSeq.Size()), ", ") << std::endl;
 }
 
 void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)
@@ -400,6 +403,8 @@ void MatrixSearch::SearchUnordered(const EncryptedMatrix& mat, const std::vector
 void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, /*const std::vector<int>& inputSeq*/SearchInput inputSeq)
 {
 	std::vector<int> foundRows;
+	const MatrixNumMap& matrixMap = mat.GetMatrixMap();
+	const std::unordered_map<int, int>& inputSequenceCount = inputSeq.GetSequenceCount();
 
 	auto start = std::chrono::system_clock::now();
 	// Trivial rejection: stop searching immediately if input sequence is empty
@@ -481,6 +486,7 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, /*const 
 		}
 	}
 
+	// Optimization Attempt #2
 	//SearchResultList foundList;
 	//int matSize = StringUtils::SafeConvertUnsigned(mat.GetSortedMatrixData().size());
 	//int lastElem = matSize - 1;
@@ -521,12 +527,67 @@ void MatrixSearch::SearchUnorderedOptimized(const EncryptedMatrix& mat, /*const 
 	//		break;
 	//	}
 	//}
+
+	// Optimization Attempt #3
+	////SearchResultList foundList;
+	//std::unordered_map<int, unsigned> foundRows;
+	////const MatrixNumMap& matrixMap = mat.GetMatrixMap();
+	//for (auto seqCountEntry : inputSequenceCount)
+	//{
+	//	int currSearchInt = seqCountEntry.first;
+	//	int numCount = seqCountEntry.second;
+
+	//	// No number found, stop searching
+	//	if (matrixMap.find(currSearchInt) == matrixMap.end())
+	//	{
+	//		break;
+	//	}
+
+	//	const MatrixRowMap& matrixRowMap = matrixMap.find(currSearchInt)->second;
+	//	for (auto rowMap : matrixRowMap)
+	//	{
+	//		int rowowNumCount = StringUtils::SafeConvertUnsigned(rowMap.second.size());
+	//		// Skip adding if not enough matched number to add
+	//		if (rowowNumCount < numCount)
+	//		{
+	//			if (foundRows.find(rowMap.first) != foundRows.end())
+	//			{
+	//				foundRows.erase(rowMap.first);
+	//			}
+
+	//			continue;
+	//		}
+
+	//		auto rowIter = foundRows.find(rowMap.first);
+	//		if (rowIter == foundRows.end())
+	//		{
+	//			foundRows.insert(std::pair<int, int>(rowMap.first, 1));
+	//		}
+	//		else
+	//		{
+	//			++rowIter->second;
+	//		}
+
+	//		/*for (int p = 0; p < rowowNumCount; ++p)
+	//		{
+	//			ElemData data{ currSearchInt, rowMap.second[p] };
+
+	//			if (foundList.Has(rowMap.first, data) == false && foundList.InSequence(rowMap.first, rowMap.second[p]))
+	//			{
+	//				foundList.Add(rowMap.first, data);
+	//				break;
+	//			}
+	//		}*/
+	//	}
+	//}
+
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 
 	std::cout << "SearchUnordered finished at: " << StringUtils::ConvertToMicroseconds(elapsed_seconds.count()) << " microseconds." << std::endl;
 	std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, ", ") << std::endl;
 	//std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundList.GetFoundList(inputSeq.Size()), ", ") << std::endl;
+	//std::cout << "Sequence found in row(s): " << StringUtils::StringList(foundRows, inputSeq.Size(), ", ") << std::endl;
 }
 
 void MatrixSearch::SearchBestMatch(const EncryptedMatrix& mat, const std::vector<int>& inputSeq)

@@ -14,6 +14,7 @@ public:
 	const unsigned Size() const;
 	const int GetCount(int num) const;
 	const std::vector<int>& GetInputSequence() const;
+	const std::unordered_map<int, int>& GetSequenceCount() const;
 
 private:
 	void Set(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);

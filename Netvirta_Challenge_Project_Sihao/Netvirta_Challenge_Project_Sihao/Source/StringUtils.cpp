@@ -146,6 +146,36 @@ const std::string StringUtils::StringList(const std::vector<int>& list, const st
 	return strungList;
 }
 
+const std::string StringUtils::StringList(const std::unordered_map<int, unsigned>& list, const unsigned expectedSize, const std::string separator)
+{
+	if (list.empty() == true)
+	{
+		return "none.";
+	}
+
+	std::string strungList;
+
+	unsigned i = 0;
+	for (auto entry : list)
+	{
+		if (entry.second < expectedSize)
+		{
+			continue;
+		}
+
+		strungList += std::to_string(entry.first);
+
+		if (i < (list.size() - 1))
+		{
+			strungList += separator;
+		}
+
+		++i;
+	}
+
+	return strungList;
+}
+
 bool StringUtils::CheckFileName(const std::string& str, const std::string& fileType)
 {
 	int pos = str.find(fileType);

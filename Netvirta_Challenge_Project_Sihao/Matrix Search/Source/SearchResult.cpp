@@ -53,6 +53,11 @@ const std::vector<int>& SearchInput::GetInputSequence() const
 	return _inputSequence;
 }
 
+const std::unordered_map<int, int>& SearchInput::GetSequenceCount() const
+{
+	return _sequenceCount;
+}
+
 void SearchInput::Set(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
 {
 	_inputSequence = StringUtils::IntParseSearchSequence(searchFuncSeq, hasSearchFunc);

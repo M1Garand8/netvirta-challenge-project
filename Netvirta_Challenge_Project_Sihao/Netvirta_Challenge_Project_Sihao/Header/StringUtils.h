@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class StringUtils
 {
@@ -18,6 +19,7 @@ public:
 	static const std::string StrParseSearchSequence(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc = true);
 
 	static const std::string StringList(const std::vector<int>& list, const std::string separator);
+	static const std::string StringList(const std::unordered_map<int, unsigned>& list, const unsigned expectedSize, const std::string separator);
 
 	static bool CheckFileName(const std::string& str, const std::string& fileType);
 
