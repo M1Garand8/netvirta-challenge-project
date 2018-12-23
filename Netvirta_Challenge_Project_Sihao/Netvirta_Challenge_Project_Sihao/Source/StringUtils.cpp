@@ -176,6 +176,20 @@ const std::string StringUtils::StringList(const std::unordered_map<int, unsigned
 	return strungList;
 }
 
+const std::vector<std::string> StringUtils::GenerateInputSequenceString(int count, int range_max)
+{
+	//std::srand(time(nullptr));
+	std::vector<std::string> seqStr;
+
+	for (int i = 0; i < count; ++i)
+	{
+		int newNum = (std::rand() % range_max) + 1;
+		seqStr.push_back(std::to_string(newNum));
+	}
+
+	return seqStr;
+}
+
 bool StringUtils::CheckFileName(const std::string& str, const std::string& fileType)
 {
 	int pos = str.find(fileType);

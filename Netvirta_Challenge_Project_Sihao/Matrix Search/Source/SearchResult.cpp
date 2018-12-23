@@ -5,6 +5,14 @@
 #include <algorithm>
 #include <string>
 
+const SearchInput SearchUtils::GenerateSearchInput(int count, int range_max)
+{
+	std::vector<std::string> searchStrList = StringUtils::GenerateInputSequenceString(count, range_max);
+	SearchInput searchInput{ searchStrList, false };
+
+	return searchInput;
+}
+
 SearchInput::SearchInput(std::vector<std::string>& searchFuncSeq, const bool hasSearchFunc)
 {
 	Set(searchFuncSeq, hasSearchFunc);
@@ -351,56 +359,56 @@ void SearchResult::Sort()
 	});
 }
 
-bool SearchResultList::Add(const int currSrchSeq, const int searchSize, const ElemData data, bool isOrdered)
-{
-	int row = data.Row();
-	int listSize = StringUtils::SafeConvertUnsigned(_searchResList.size());
-	int lastData = listSize - 1;
-
-	// First ever result found
-	if (listSize == 0 && currSrchSeq == 1)
-	{
-		SearchResult res(data.Row(), searchSize);
-		res.Add(data);
-		_searchResList.push_back(res);
-
-		return true;
-	}
-
-	int rowExist = BinarySearchRow(_searchResList, 0, lastData, row);
-	if (rowExist != -1)
-	{
-		SearchResult& res = _searchResList[rowExist];
-		// Skip adding if data already added
-		if (res.Has(data.Num(), data.Pos()))
-		{
-			return false;
-		}
-
-		// Skip adding if it fails in sequence requirement
-		if (isOrdered == true && res.InSequence(data.Pos()) == false)
-		{
-			return false;
-		}
-
-		res.Add(data);
-
-		return true;
-	}
-	// Add new result only if matched number is first one found
-	else if (rowExist == -1 && currSrchSeq == 1)
-	{
-		SearchResult res(data.Row(), searchSize);
-		res.Add(data);
-		_searchResList.push_back(res);
-		Sort();
-
-		return true;
-	}
-
-	// Nothing added if it reaches here, so return "failed".
-	return false;
-}
+//bool SearchResultList::Add(const int currSrchSeq, const int searchSize, const ElemData data, bool isOrdered)
+//{
+//	int row = data.Row();
+//	int listSize = StringUtils::SafeConvertUnsigned(_searchResList.size());
+//	int lastData = listSize - 1;
+//
+//	// First ever result found
+//	if (listSize == 0 && currSrchSeq == 1)
+//	{
+//		SearchResult res(data.Row(), searchSize);
+//		res.Add(data);
+//		_searchResList.push_back(res);
+//
+//		return true;
+//	}
+//
+//	int rowExist = BinarySearchRow(_searchResList, 0, lastData, row);
+//	if (rowExist != -1)
+//	{
+//		SearchResult& res = _searchResList[rowExist];
+//		// Skip adding if data already added
+//		if (res.Has(data.Num(), data.Pos()))
+//		{
+//			return false;
+//		}
+//
+//		// Skip adding if it fails in sequence requirement
+//		if (isOrdered == true && res.InSequence(data.Pos()) == false)
+//		{
+//			return false;
+//		}
+//
+//		res.Add(data);
+//
+//		return true;
+//	}
+//	// Add new result only if matched number is first one found
+//	else if (rowExist == -1 && currSrchSeq == 1)
+//	{
+//		SearchResult res(data.Row(), searchSize);
+//		res.Add(data);
+//		_searchResList.push_back(res);
+//		Sort();
+//
+//		return true;
+//	}
+//
+//	// Nothing added if it reaches here, so return "failed".
+//	return false;
+//}
 
 void SearchResultList::Add(const int currRow, const ElemData data)
 {

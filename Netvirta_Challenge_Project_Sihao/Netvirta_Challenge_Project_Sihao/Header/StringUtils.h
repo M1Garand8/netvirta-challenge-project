@@ -21,6 +21,8 @@ public:
 	static const std::string StringList(const std::vector<int>& list, const std::string separator);
 	static const std::string StringList(const std::unordered_map<int, unsigned>& list, const unsigned expectedSize, const std::string separator);
 
+	static const std::vector<std::string> GenerateInputSequenceString(int count, int range_max);
+
 	static bool CheckFileName(const std::string& str, const std::string& fileType);
 
 	static int ConvertToMiliseconds(double seconds);

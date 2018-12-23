@@ -2,13 +2,6 @@
 
 ElemData::ElemData(const int num, const int pos) : _num(num), _pos(pos) { }
 
-ElemData::ElemData(const int row, const int num, const int pos) : _row(row), _num(num), _pos(pos) { }
-
-const int ElemData::Row() const
-{
-	return _row;
-}
-
 const int ElemData::Num() const
 {
 	return _num;
@@ -21,13 +14,6 @@ const int ElemData::Pos() const
 
 void ElemData::Set(const int num, const int pos)
 {
-	_num = num;
-	_pos = pos;
-}
-
-void ElemData::Set(const int row, const int num, const int pos)
-{
-	_row = row;
 	_num = num;
 	_pos = pos;
 }

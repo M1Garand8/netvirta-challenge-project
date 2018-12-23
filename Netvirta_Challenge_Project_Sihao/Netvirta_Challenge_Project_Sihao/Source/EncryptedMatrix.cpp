@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <tuple>
+#include <limits>
 
 EncryptedMatrix::EncryptedMatrix(unsigned row, unsigned col) : _row(row), _col(col)	{ }
 
@@ -63,7 +64,7 @@ EncryptedMatrix::EncryptedMatrix(const std::string path, bool encryptDecrypt)
 
 		_matrixSortedOld.insert(_matrixSortedOld.end(), rowData.begin(), rowData.end());
 	}
-	// Ordered by Num -> Row -> Pos
+	// Ordered by Num -> Pos
 	GenerateSortedMatrix();
 	GenerateMatrixMap();
 }
@@ -166,7 +167,7 @@ void EncryptedMatrix::GenerateMatrix()
 	// Generate normal, unsorted matrix
 	for (unsigned i = 0; i < (_row * _col); ++i)
 	{
-		int newNum = (std::rand() % 100) + 1; // Limit number range to 1 - 100
+		int newNum = (std::rand() % std::numeric_limits<int>::max()) + 1;
 
 		_matrix.push_back(newNum);
 	}
@@ -316,23 +317,20 @@ std::vector<ElemData> EncryptedMatrix::GenerateSortedRow(const unsigned row)
 
 void EncryptedMatrix::GenerateSortedMatrix()
 {
-	unsigned matSize = _matrix.size();
-	for (unsigned i = 0; i < matSize; ++i)
+	for (unsigned i = 0; i < (_row * _col); ++i)
 	{
-		// Safe conversion of unsigned to signed int
+		int num = _matrix[i];
 		int pos = StringUtils::SafeConvertUnsigned(i);
-		int row = (i / _col) + 1;
-		ElemData data{ row, _matrix[i], pos };
-		_matrixSorted.push_back(data);
+
+		ElemData newData{ num, pos };
+		_matrixSorted.push_back(newData);
 	}
 	std::sort(_matrixSorted.begin(), _matrixSorted.end(), [](const ElemData& data1, const ElemData& data2) {
 		int lhsNum = data1.Num();
-		int lhsRow = data1.Row();
 		int lhsPos = data1.Pos();
 		int rhsNum = data2.Num();
-		int rhsRow = data2.Row();
 		int rhsPos = data2.Pos();
-		return std::tie(lhsNum, lhsRow, lhsPos) < std::tie(rhsNum, rhsRow, rhsPos);
+		return std::tie(lhsNum, lhsPos) < std::tie(rhsNum, rhsPos);
 	});
 }
 
