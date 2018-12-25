@@ -66,7 +66,6 @@ EncryptedMatrix::EncryptedMatrix(const std::string path, bool encryptDecrypt)
 	}
 	// Ordered by Num -> Pos
 	GenerateSortedMatrix();
-	GenerateMatrixMap();
 }
 
 const unsigned EncryptedMatrix::Row() const
@@ -79,19 +78,9 @@ const unsigned EncryptedMatrix::Col() const
 	return _col;
 }
 
-const std::unordered_map<int, std::unordered_map<int, std::vector<int>>>& EncryptedMatrix::GetMatrixData() const
-{
-	return _matrixMap;
-}
-
 const std::vector<ElemData>& EncryptedMatrix::GetSortedMatrixData() const
 {
 	return _matrixSorted;
-}
-
-const std::vector<ElemData>& EncryptedMatrix::GetOldSortedMatrixData() const
-{
-	return _matrixSortedOld;
 }
 
 const ElemData& EncryptedMatrix::operator[](unsigned i) const
@@ -105,19 +94,6 @@ const ElemData& EncryptedMatrix::operator[](unsigned i) const
 	}
 
 	return _matrixSorted[i];
-}
-
-const ElemData& EncryptedMatrix::GetElemOld(unsigned i) const
-{
-	unsigned size = _matrixSorted.size();
-	if (i >= size)
-	{
-		std::cout << "Index out of bounds." << std::endl;
-		unsigned end = size - 1;
-		return _matrixSorted[end];
-	}
-
-	return _matrixSortedOld[i];
 }
 
 const std::vector<int> EncryptedMatrix::GetRowData(const unsigned row) const
@@ -136,20 +112,6 @@ const std::vector<ElemData> EncryptedMatrix::GetSortedRowData(const unsigned row
 	std::vector<ElemData> rowData{ _matrixSorted.begin() + rowBegin, _matrixSorted.begin() + rowEnd };
 
 	return rowData;
-}
-
-const std::vector<ElemData> EncryptedMatrix::GetOldSortedRowData(const unsigned row) const
-{
-	unsigned rowBegin = (row * _col);
-	unsigned rowEnd = rowBegin + _col;
-	std::vector<ElemData> rowData{ _matrixSortedOld.begin() + rowBegin, _matrixSortedOld.begin() + rowEnd };
-
-	return rowData;
-}
-
-const MatrixNumMap& EncryptedMatrix::GetMatrixMap() const
-{
-	return _matrixMap;
 }
 
 const std::string EncryptedMatrix::GetRowString(const unsigned row) const
@@ -332,26 +294,4 @@ void EncryptedMatrix::GenerateSortedMatrix()
 		int rhsPos = data2.Pos();
 		return std::tie(lhsNum, lhsPos) < std::tie(rhsNum, rhsPos);
 	});
-}
-
-void EncryptedMatrix::GenerateMatrixMap()
-{
-	for (unsigned i = 0; i < _row; ++i)
-	{
-		int row = StringUtils::SafeConvertUnsigned(i) + 1;
-		std::vector<ElemData> rowData = GetOldSortedRowData(i);
-		for (unsigned j = 0; j < rowData.size(); ++j)
-		{
-			ElemData data = rowData[j];
-			if (_matrixMap.find(data.Num()) == _matrixMap.end())
-			{
-				std::unordered_map<int, std::vector<int>> newRowMap;
-				std::vector<int> posData;
-				newRowMap[row] = posData;
-				_matrixMap[data.Num()] = newRowMap;
-			}
-
-			_matrixMap[data.Num()][row].push_back(data.Pos());
-		}
-	}
 }

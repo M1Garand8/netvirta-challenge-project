@@ -15,11 +15,14 @@ enum SearchType
 class MatrixSearch
 {
 public:
-	static int SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, SearchInput& searchInput, bool printMessages = true);
+	static int SearchMatrix(std::string& searchFunc, const EncryptedMatrix& mat, SearchInput& searchInput, bool naive = false, bool printMessages = true);
 
 private:
+	static int SearchSequence(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
 	static int SearchSequenceOptimized(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
+	static int SearchUnordered(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
 	static int SearchUnorderedOptimized(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
+	static int SearchBestMatch(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
 	static int SearchBestMatchOptimized(const EncryptedMatrix& mat, SearchInput& inputSeq, bool printMessages);
 	static int BinarySearch(const std::vector<ElemData>& data, int l, int r, int x);
 	static int BinarySearchLowerBound(const std::vector<ElemData>& data, int l, int r, int x);

@@ -32,20 +32,13 @@ public:
 	SearchResult& operator=(const SearchResult& res);
 	void Add(const int num, const int pos);
 	void Add(const ElemData data);
-	void AddSwap(const int num, const int pos);
-	void Swap(const int old_num, const int old_pos, const int new_num, const int new_pos);
-	bool IsCloser(const int num, const int pos);
 	bool Has(const int num);
 	bool Has(const int num, const int pos);
 	int Find(const std::vector<ElemData>& data, const int num);
 	const unsigned Size() const;
-	bool MatchSize();
 	bool MatchSize(const unsigned size);
 	const int MatchSize(const std::vector<int>& inputSeq) const;
-	bool InASequence();
 	bool InSequence(const int newPos);
-	bool InDirectSequence(const int newPos);
-	bool WithinASequence(const int newPos);
 
 	const std::string PrintSequence();
 

@@ -121,50 +121,6 @@ void SearchResult::Add(const ElemData data)
 	Sort();
 }
 
-void SearchResult::AddSwap(const int num, const int pos)
-{
-	int numPosUnsorted = Find(_foundNumsList, num);
-	int numPosSorted = Find(_foundNumsListSorted, num);
-
-	// Both lists should have the number!
-	if (numPosUnsorted != -1 && numPosSorted != -1)
-	{
-		_foundNumsList[numPosUnsorted].Set(num, pos);
-		_foundNumsListSorted[numPosSorted].Set(num, pos);
-	}
-}
-
-void SearchResult::Swap(const int old_num, const int old_pos, const int new_num, const int new_pos)
-{
-	int oldNumPosUnsorted = Find(_foundNumsList, old_num);
-	int oldNumPosSorted = Find(_foundNumsListSorted, old_num);
-
-	// Both lists should have the number!
-	if (oldNumPosUnsorted != -1 && oldNumPosSorted != -1)
-	{
-		_foundNumsList[oldNumPosUnsorted].Set(new_num, new_pos);
-		_foundNumsListSorted[oldNumPosSorted].Set(new_num, new_pos);
-	}
-}
-
-bool SearchResult::IsCloser(const int num, const int pos)
-{
-	if (Has(num) == true)
-	{
-		int currNumPos = Find(_foundNumsListSorted, num);
-
-		ElemData firstData = _foundNumsListSorted[0];
-		ElemData currData = _foundNumsListSorted[currNumPos];
-
-		int currDataDist = std::abs(firstData.Pos() - currData.Pos());
-		int newDataDist = std::abs(firstData.Pos() - pos);
-
-		return newDataDist < currDataDist;
-	}
-
-	return true;
-}
-
 bool SearchResult::Has(const int num)
 {
 
@@ -205,11 +161,6 @@ const unsigned SearchResult::Size() const
 	return _foundNumsList.size();
 }
 
-bool SearchResult::MatchSize()
-{
-	return _expectedSize == _foundNumsList.size();
-}
-
 bool SearchResult::MatchSize(const unsigned size)
 {
 	return size == _foundNumsList.size();
@@ -236,41 +187,6 @@ const int SearchResult::MatchSize(const std::vector<int>& inputSeq) const
 	return numsMatched;
 }
 
-// Checks if the found numbers list is in sequence, not necessary in order
-bool SearchResult::InASequence()
-{
-	unsigned listSize = _foundNumsList.size();
-
-	// 0 length list is not a sequence!
-	if (listSize == 0)
-	{
-		return false;
-	}
-
-	// Sequence of 1 number
-	if (listSize == 1)
-	{
-		return true;
-	}
-
-	// Even if numbers matched are not in sequence (in the case of SearchUnordered),
-	// the position of the numbers must be still in sequence, since it is a sequence
-	for (unsigned i = 0, j = i + 1; j < _foundNumsListSorted.size(); ++i, ++j)
-	{
-		ElemData first = _foundNumsListSorted[i];
-		ElemData second = _foundNumsListSorted[j];
-
-		int diff = std::abs(first.Pos() - second.Pos());
-
-		if (diff > 1)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
 // Checks if new position to be added is directly after the last found position
 bool SearchResult::InSequence(const int newPos)
 {
@@ -285,47 +201,6 @@ bool SearchResult::InSequence(const int newPos)
 	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
 
 	return newPos > lastElemPos;
-}
-
-// Checks if new position to be added is directly after the last found position
-bool SearchResult::InDirectSequence(const int newPos)
-{
-	unsigned seqSize = _foundNumsListSorted.size();
-	// First in sequence, always in "sequence"
-	if (seqSize == 0)
-	{
-		return true;
-	}
-
-	unsigned lastElem = _foundNumsListSorted.size() - 1;
-	int lastElemPos = _foundNumsListSorted[lastElem].Pos();
-	int diff = abs(lastElemPos - newPos);
-
-	return newPos > lastElemPos && diff == 1;
-}
-
-// Checks if new position to be added is within the range expected by the leftmost position
-bool SearchResult::WithinASequence(const int newPos)
-{
-	unsigned seqSize = _foundNumsListSorted.size();
-	// First in sequence, always in "sequence"
-	if (seqSize == 0)
-	{
-		return true;
-	}
-
-	for (unsigned i = 0; i < seqSize; ++i)
-	{
-		int currElemPos = _foundNumsListSorted[i].Pos();
-		unsigned diff = abs(currElemPos - newPos);
-
-		if (diff > seqSize)
-		{
-			return false;
-		}
-	}
-
-	return true;
 }
 
 const std::string SearchResult::PrintSequence()

@@ -5,7 +5,7 @@ k:\digipen\netvirta\netvirta_challenge_project_sihao\netvirta_challenge_project_
   StringUtils.cpp
   MatrixUtils.cpp
   EncryptedMatrix.cpp
-k:\digipen\netvirta\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\source\encryptedmatrix.cpp(165): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+k:\digipen\netvirta\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\netvirta_challenge_project_sihao\source\encryptedmatrix.cpp(127): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating Code...
   Matrix Search.vcxproj -> K:\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Debug\Matrix Search.exe
   Matrix Search.vcxproj -> K:\DigiPen\Netvirta\Netvirta_Challenge_Project_Sihao\Netvirta_Challenge_Project_Sihao\Debug\Matrix Search.pdb (Full PDB)

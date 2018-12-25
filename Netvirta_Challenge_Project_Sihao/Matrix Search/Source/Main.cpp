@@ -165,11 +165,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #1a: Correctness test, Square Matrix, Matching Non-full Row" << std::endl;
 		std::cout << "Search string: " << evenSearchSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 7" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 7" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 7" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput, true, true);
 
 		evenSearchSeqStr = "20 42 35 63 28 19";
 		evenSearchStrList = StringUtils::Split(evenSearchSeqStr, ' ');
@@ -180,11 +180,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #1b: Correctness test, Square Matrix, Matching Non-Full Row, Swapped Order" << std::endl;
 		std::cout << "Search string: " << evenSearchSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: none." << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 7" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 7" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput, true, true);
 		
 		evenSearchSeqStr = "41 37 85 33 79 63 8 60 100 17" ;
 		evenSearchStrList = StringUtils::Split(evenSearchSeqStr, ' ');
@@ -195,11 +195,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #1c: Correctness test, Square Matrix, Matching Full Row" << std::endl;
 		std::cout << "Search string: " << evenSearchSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 8" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 8" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 8" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput, true, true);
 
 		evenSearchSeqStr = "33";
 		evenSearchStrList = StringUtils::Split(evenSearchSeqStr, ' ');
@@ -210,11 +210,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #1d: Correctness test, Square Matrix, Matching Single Digit" << std::endl;
 		std::cout << "Search string: " << evenSearchSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 1, 2, 3, 8, 9" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 1, 2, 3, 8, 9" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_10, evenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 1" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_10, evenSrcInput, true, true);
 
 		// Test #2: Correctness test, Non-Square Matrix (Row != Col)
 		//std::string testUnevenDataPath{ "even_test_10_50.dat" };
@@ -231,11 +231,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #2a: Correctness test, Non-Square Matrix, Matching Non-full Row" << std::endl;
 		std::cout << "Search string: " << unevenInputSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 5" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 5" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 5" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput, true, true);
 
 		unevenSearchSeqStr = "15 16 99 81 69 39 24 73 62 50 26 15 20 67 22 58 58 50 25 14 67 34 98 96 27 87 49 83 45 97 87 20 12 92 74 33 81 96 34 9 4 55 25 7 55 73 71 56 27 59" ;
 		unevenSearchStrList = StringUtils::Split(unevenSearchSeqStr, ' ');
@@ -246,11 +246,11 @@ int main(int argc, char *argv[])
 		std::cout << "Test #2b: Correctness test, Non-Square Matrix, Matching Full Row" << std::endl;
 		std::cout << "Search string: " << unevenInputSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 10" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 10" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 10" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput, true, true);
 
 		unevenSearchSeqStr = "90";
 		unevenSearchStrList = StringUtils::Split(unevenSearchSeqStr, ' ');
@@ -261,14 +261,14 @@ int main(int argc, char *argv[])
 		std::cout << "Test #2c: Correctness test, Non-Square Matrix, Matching Single Digit, Repeated" << std::endl;
 		std::cout << "Search string: " << unevenInputSeqStr << std::endl;
 		std::cout << "SearchSequence search row(s) expected: 3, 4, 6, 8" << std::endl;
-		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchSeq, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchUnordered search row(s) expected: 3, 4, 6, 8" << std::endl;
-		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchUnOrd, mat_10_50, unevenSrcInput, true, true);
 		std::cout << "SearchBestMatch search row expected: 3" << std::endl;
-		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput);
+		MatrixSearch::SearchMatrix(searchBM, mat_10_50, unevenSrcInput, true, true);
 
 		// Test #3 Performance test (1000 x 1000 matrix with random inputs)
-		std::cout << "Test #3: Performance test (1000 x 1000 matrix), average case" << std::endl;
+		std::cout << "Test #3a: Performance test (1000 x 1000 matrix), average case (naive)" << std::endl;
 		int iteration = 100;
 		std::string perf1000_1000StressTestData{ "perf_test_1000_1000_plain.dat" };
 		const EncryptedMatrix mat_1000_1000(perf1000_1000StressTestData, false);
@@ -284,7 +284,7 @@ int main(int argc, char *argv[])
 			//int count = (std::rand() % count_max) + 1;
 			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
 
-			elapsed_time += MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, perf1000_1000SrcInput, false);
+			elapsed_time += MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, perf1000_1000SrcInput, true, false);
 		}
 
 		average_time = elapsed_time / iteration;
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
 			//int count = (std::rand() % count_max) + 1;
 			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
 
-			elapsed_time += MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, perf1000_1000SrcInput, false);
+			elapsed_time += MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, perf1000_1000SrcInput, true, false);
 		}
 
 		average_time = elapsed_time / iteration;
@@ -313,7 +313,52 @@ int main(int argc, char *argv[])
 			//int count = (std::rand() % count_max) + 1;
 			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
 
-			elapsed_time += MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, perf1000_1000SrcInput, false);
+			elapsed_time += MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, perf1000_1000SrcInput, true, false);
+		}
+
+		average_time = elapsed_time / iteration;
+		std::cout << "SearchBestMatch finished at: " << average_time << " microseconds." << std::endl;
+
+		std::cout << "Test #3b: Performance test (1000 x 1000 matrix), average case (optimized)" << std::endl;
+		elapsed_time = 0;
+
+		// searchSequence Test
+		std::cout << "SearchSequence: " << iteration << " iterations" << std::endl;
+		for (int i = 0; i < iteration; ++i)
+		{
+			//int count = (std::rand() % count_max) + 1;
+			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
+
+			elapsed_time += MatrixSearch::SearchMatrix(searchSeq, mat_1000_1000, perf1000_1000SrcInput, false, false);
+		}
+
+		average_time = elapsed_time / iteration;
+		std::cout << "SearchSequence finished at: " << average_time << " microseconds." << std::endl;
+
+
+		// searchUnordered Test
+		std::cout << "SearchUnordered: " << iteration << " iterations" << std::endl;
+		elapsed_time = 0;
+		for (int i = 0; i < iteration; ++i)
+		{
+			//int count = (std::rand() % count_max) + 1;
+			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
+
+			elapsed_time += MatrixSearch::SearchMatrix(searchUnOrd, mat_1000_1000, perf1000_1000SrcInput, false, false);
+		}
+
+		average_time = elapsed_time / iteration;
+		std::cout << "SearchUnordered finished at: " << average_time << " microseconds." << std::endl;
+
+		// searchBestMatch Test
+		std::cout << "SearchBestMatch: " << iteration << " iterations" << std::endl;
+		elapsed_time = 0;
+		for (int i = 0; i < iteration; ++i)
+		{
+			//int count = (std::rand() % count_max) + 1;
+			SearchInput perf1000_1000SrcInput = SearchUtils::GenerateSearchInput(count_max, range_max);
+
+			elapsed_time += MatrixSearch::SearchMatrix(searchBM, mat_1000_1000, perf1000_1000SrcInput, false, false);
 		}
 
 		average_time = elapsed_time / iteration;
